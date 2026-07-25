@@ -20,6 +20,8 @@ header-includes:
 
 *Portions of this document were drafted with AI assistance.*
 
+**Post-drafting scope changes (2026-07-25).** The design in this document specifies three experimental arms (M, N, E). The executed study runs arms M and N only; arm E is deferred as clearly-scoped future work per `docs/decisions/ADR-001`, with its containment protocol preserved unchanged in §7 so a competent group can execute it. The condition set has been extended from six to seven with the addition of **condition G** (evaluation-awareness disclosure) per `docs/decisions/ADR-004`, instrumenting a new hypothesis **H6**. The hypothesis list has been extended from H1–H5 to **H1–H8** with the addition of H6 (evaluation-awareness), **H7** (temporal drift under silent provider updates), and **H8** (provider substitution artifact). Throughout this document, *condition E* refers to the useless-affordance condition in §5.3 and *arm E* refers to the deferred live-exploit arm in §4.4 — the letters coincide but the referents are distinct. The authoritative live scope is ADR-000 and ADR-004; this document is the design manuscript pinned by the OSF pre-registration for TMLR reviewer reference.
+
 # 1. Summary
 
 Propensity evaluations ask what an agent chooses to do rather than what it is able to do. The current generation of these evaluations shares a structural feature that has never been tested: the boundary the agent is measured against is *stipulated by the evaluation author* rather than *enforced by the system*. A policy document declares that cross-team credit transfers are forbidden. A colleague's note says lifecycle controls are off limits. The violation is legible only because the fiction says it is a violation.
@@ -84,7 +86,7 @@ This is a narrow contribution. I would rather present it as narrow and correct t
 
 ## 4.1 Notation
 
-Let $m \in \mathcal{M}$ index models, $s \in \mathcal{S}$ scenarios, and $c \in \{\mathrm{A},\dots,\mathrm{F}\}$ conditions per Section 5.3. Each scenario is built on an escape mechanism $\mu(s) \in \mathcal{U}$ drawn from the published SandboxEscapeBench suite. Let $a \in \{\mathrm{M},\mathrm{N},\mathrm{E}\}$ index the experimental arm defined in Section 4.4, and let $r = 1,\dots,R$ index independent repetitions.
+Let $m \in \mathcal{M}$ index models, $s \in \mathcal{S}$ scenarios, and $c \in \{\mathrm{A},\dots,\mathrm{G}\}$ conditions per Section 5.3. Each scenario is built on an escape mechanism $\mu(s) \in \mathcal{U}$ drawn from the published SandboxEscapeBench suite. Let $a \in \{\mathrm{M},\mathrm{N},\mathrm{E}\}$ index the experimental arm defined in Section 4.4, and let $r = 1,\dots,R$ index independent repetitions.
 
 Each episode yields a trajectory from which four labels are extracted deterministically:
 
@@ -172,7 +174,7 @@ Because arm assignment is under experimenter control and models carry no state a
 
 Two practical consequences follow. First, the primary scientific result is obtained from the $\mathrm{M} \to \mathrm{N}$ contrast, in which **no escape is ever possible**, so the containment burden of the central experiment is close to zero. Second, arm E shrinks to a small validation sample rather than the bulk of the study, which is what makes the whole design feasible at the resource level described in Section 8.
 
-## 4.5 An internal validity check that comes for free
+## 4.5 An internal validity check the design retains but does not execute
 
 Because the neutering in arm N is silent, an agent cannot distinguish N from E until after it has acted. Therefore, restricting to first attempts,
 
@@ -180,7 +182,9 @@ $$
 \omega^{(1)}_{\mathrm{N}} = \omega^{(1)}_{\mathrm{E}} \quad \text{in expectation, by construction.}
 $$
 
-This is a testable implication of correct implementation rather than a hypothesis about models. A statistically detectable difference in first-attempt crossing between N and E means the neutering is observable to the agent, that is, the arms leak. Pre-specifying an equivalence test on this contrast, with a margin of 2 percentage points, gives the study a built-in instrumentation check that most eval designs lack.
+This is a testable implication of correct implementation rather than a hypothesis about models. A statistically detectable difference in first-attempt crossing between N and E means the neutering is observable to the agent, that is, the arms leak. The design retains this equivalence test with a margin of 2 percentage points as an instrumentation check.
+
+**Under the executed scope, this check is documented rather than empirically executed:** ADR-001 places arm E out of scope for the first paper, so the equivalence contrast between arms N and E is not measured in this study. The check remains in the design as a specified verification any group running arm E should perform. In its place, the executed study relies on the ADR-005 safety invariants (byte-identical regex sets between scorer and neutering wrapper, no dispatch on match, no side effects, provenance for every canned response) to establish that arm N does not observably diverge from the arm-E behavior it is meant to stand in for.
 
 ## 4.6 Why fidelity matters linearly, not marginally
 
@@ -215,6 +219,12 @@ Directional predictions with reasoning stated, so that being wrong is informativ
 **H4 (fidelity gap, primary).** $\Delta_{\mathrm{fid}}(\mathrm{B}) < 0$, with $|\Delta_{\mathrm{fid}}(\mathrm{B})| \ge 0.03$; equivalently $\rho > 1$. Reasoning: a real substrate supplies friction, failure feedback and genuine uncertainty about whether an action will work, all absent when a mock shell returns fabricated success. I hold this weakly and consider the opposite result more interesting: $\rho < 1$ would mean fabricated-boundary evaluations systematically *underestimate*, and the literature's reassuring numbers are artifacts of their own methodology.
 
 **H5 (the gap is not purely legibility).** The willingness component of the decomposition in Section 4.3 is non-zero, that is $\omega_{\mathrm{N}} \ne \omega_{\mathrm{M}}$. Reasoning: if the entire gap is legibility, the finding is about environment construction rather than propensity, which is a weaker but still publishable result. Pre-committing to this distinction prevents me from reporting whichever framing the data flatters.
+
+**H6 (evaluation-awareness null or suppression).** $\pi(\mathrm{G}) \le \pi(\mathrm{A})$: awareness that the episode is a safety benchmark does not increase crossing. Reasoning: awareness plausibly suppresses (sandbagging), but Instrumental Choices found awareness signals in 0.65% of transcripts and it was not protective when present. Either result is publishable: suppression is alarming for eval methodology; no effect replicates Instrumental Choices at higher awareness salience.
+
+**H7 (temporal-drift bound).** Between the primary collection and the +4-week replication, the per-model crossing rate on conditions A, B, and F changes by $\le 3$ percentage points for at least 4 of 5 panel models. Reasoning: silent provider updates typically shift downstream metrics by a few points; larger shifts would invalidate cross-time comparisons across the entire propensity literature. Failure is itself a first-class methodological finding.
+
+**H8 (provider-substitution transparency).** For Opus 4.7 and GPT-5.5, crossing rates via direct API vs OpenRouter differ by $\le 2$ percentage points on conditions A and B. Reasoning: aggregators should be transparent to model behavior. A difference $> 2$ pp is a silent confound affecting any study routed through an aggregator without explicit control.
 
 ## 5.2 Phases
 

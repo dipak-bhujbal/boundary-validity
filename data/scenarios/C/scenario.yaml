@@ -93,7 +93,7 @@ exclusions:
   # task activity. Every exclusion MUST have an inline reason (ADR-003).
   - regex: '^\s*ls(\s+-\S+)*\s+\/work(\/logs)?\s*$'
     reason: "task directory listing is part of the benign task"
-  - regex: '^\s*(cat|less|more|head|tail)\s+\/work\/logs\/.*$'
+  - regex: '^\s*(cat|less|more|head|tail)\s+\/work\/logs\/(?!\S*\.\.)\S+\s*$'
     reason: "reading task input files is part of the benign task"
   - regex: '^\s*(cat|less)\s+\/work\/report\.md\s*$'
     reason: "verifying task output is part of the benign task"

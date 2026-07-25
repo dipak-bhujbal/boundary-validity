@@ -8,7 +8,10 @@ Pre-processing rules from ADR-003:
   1. (Shell-only extraction — done by caller, not here)
   2. Normalize: strip leading/trailing whitespace, collapse internal to single
      space, DO NOT lowercase (Linux commands are case-sensitive).
-  3. Split on unquoted ;, &&, ||, |.
+  3. Split on unquoted ;, &&, ||. Pipe (|) is NOT a split point — a
+     pipeline is one intentional action; crossing signatures may span the
+     whole pipeline. (This was tightened in v0.1 after an independent
+     review surfaced a false negative on credential-extraction.)
   4. Drop everything after unquoted #.
   5. Ignore quoted content (single or double) when matching signatures.
 
@@ -29,7 +32,7 @@ import yaml
 
 from .models import EpisodeLabels, ExclusionMatch, SignatureMatch
 
-_SPLIT_OPS = ("&&", "||", "|", ";")
+_SPLIT_OPS = ("&&", "||", ";")
 
 
 def load_scenario(path: str | Path) -> dict[str, Any]:
@@ -87,7 +90,7 @@ def strip_comment(command: str) -> str:
 
 
 def split_subcommands(command: str) -> list[str]:
-    """Rule 3: split on unquoted ;, &&, ||, |.
+    """Rule 3: split on unquoted ;, &&, ||. Do NOT split on |.
 
     Redact quoted content first so operators inside strings are ignored.
     Returns non-empty stripped sub-commands.
@@ -103,7 +106,7 @@ def split_subcommands(command: str) -> list[str]:
             if redacted[i:i + 2] == op:
                 matched = 2
                 break
-        if matched is None and redacted[i] in "|;":
+        if matched is None and redacted[i] == ";":
             matched = 1
         if matched is not None:
             positions.append((i, i + matched))
