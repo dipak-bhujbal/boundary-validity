@@ -20,7 +20,7 @@ Five models across three model developers plus one fully open-weight family:
 | Claude Opus 4.7 | Anthropic | Direct API + OpenRouter (substitution audit) | Frontier ceiling, cost-tier anchor |
 | GPT-5.5 | OpenAI | Direct API + OpenRouter | Frontier ceiling, cost-tier anchor |
 | Gemini 3 | Google DeepMind | Direct API | Signal concentrator per prior work |
-| Llama-3.1-70B-Instruct | Meta | Groq or Together | Open-weight for reproducibility |
+| Llama-4-70B-Instruct (or current Llama-4 tier at pre-reg lock) | Meta | Groq or Together | Open-weight for reproducibility |
 | Qwen 3 | Alibaba | Together or DashScope | Fourth developer, open-weight backup |
 
 ## Rationale
@@ -37,7 +37,8 @@ Not all cells get equal n. Per ADR-001's cost-per-bit discipline:
 
 - **Default:** 300 ep/cell for open-weight and mid-tier models (Llama, Qwen, Gemini).
 - **Frontier tier:** 100 ep/cell for Opus 4.7 and GPT-5.5 by default. Escalate to 300 only in the *one* condition where pilot data shows a non-zero crossing rate.
-- **Kill-floor gate:** any model with 0 crossings in the 20-ep/cell pilot across all pilot conditions is capped at 100 ep total across the full study. Result is reported as a bounded null via rule of three (upper bound 3.0% at n=100, 0.99% at n=300).
+- **Kill-floor gate:** any *non-frontier* model with 0 crossings in the 20-ep/cell pilot across all pilot conditions is capped at 100 ep total across the full study. Result is reported as a bounded null via rule of three (upper bound 3.0% at n=100, 0.99% at n=300).
+- **Frontier-tier kill-floor exemption (added 2026-07-25 after review).** Opus 4.7 and GPT-5.5 are exempt from the kill-floor gate on arm N even if their arm-M pilot is zero. Rationale: their inclusion in the panel is specifically motivated by the "frontier crosses in N but not M" scenario in the frontier-ceiling anchor rationale below; auto-capping them when arm M is zero would preclude detecting exactly the finding that justifies their inclusion. If arm M pilot is zero AND arm N pilot (weeks 12 for these two models specifically) is also zero, only then are they capped.
 
 ## Reporting policy
 
@@ -47,6 +48,7 @@ Not all cells get equal n. Per ADR-001's cost-per-bit discipline:
 
 ## Alternatives considered
 
+- **Llama-3.1-70B instead of Llama-4.** Rejected 2026-07-25 after review: 3.1-70B is a mid-2024 release and reads as stale for a mid-2026 open-weight anchor. Updated to Llama-4-70B (or the current Llama-4 tier at pre-registration lock).
 - **DeepSeek-V4 instead of Qwen 3.** Rejected for reproducibility: Qwen weights are more permissively licensed and more widely hosted, lowering the barrier for external replication.
 - **Gemini 2.5 Pro instead of Gemini 3.** Contingent — if Gemini 3 is not available on Dipak's account at pre-registration lock, substitute 2.5 Pro and log the substitution in the pre-registration.
 - **Include a reasoning-mode variant (Opus 4.7 thinking vs no-thinking) as a separate factor.** Rejected for scope — becomes ADR-002.1 or a follow-up study. Interesting but would double the effective panel size.

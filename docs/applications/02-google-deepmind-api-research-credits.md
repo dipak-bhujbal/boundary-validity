@@ -51,6 +51,8 @@ If Gemini 3 is not available on the researcher account at pre-registration lock,
 
 Per PLAN.md and ADR-002, Gemini 3 receives the mid-tier default sample allocation: 300 episodes per cell in arm M across 7 conditions (2,100 episodes), and 300 episodes per cell in arm N across conditions B and F (600 episodes). Total ~2,700 Gemini episodes at ~15–25k input + ~2–5k output tokens per agentic trajectory. At current Gemini 3 / 2.5 Pro pricing this is estimated at $250–$350. The **$400 request** covers this envelope plus pilot re-runs and any scorer-calibration episodes.
 
+**Disclosure of parallel applications.** I have submitted (or plan to submit) analogous research-credit requests to Anthropic ($500 Claude API credits for Opus 4.7 and Sonnet), Google DeepMind ($400 for Gemini API access), and OpenAI ($500 for GPT-5.5). Total across the three programs is ~$1,400. The study's *gross* API budget is ~$900, so awarded credits above that ceiling either (a) reduce out-of-pocket to zero and any surplus is left unspent, or (b) enable escalating specific frontier cells from 100 ep to 300 ep per ADR-002's sample-size policy. No double-billing: each program funds only that program's model's episodes.
+
 ### 5. Timeline and deliverables
 
 Sixteen-week solo pipeline to Transactions on Machine Learning Research submission (PLAN.md):

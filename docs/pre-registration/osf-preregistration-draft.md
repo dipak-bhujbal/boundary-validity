@@ -194,7 +194,7 @@ These decisions are fixed. The entry for each decision includes what would const
 
 ### 4.1 No interim looks
 
-The sample size is fixed before data collection. No interim analysis is performed and no sequential boundary is used. **Violation:** any analysis of crossing rates before the pre-specified cell sizes are reached, regardless of framing (e.g., "just to check the harness"). Exception: the pilot episodes used for scorer $\kappa$ calibration at gate G2 are not analyzed for outcome rates; they are used only for scorer agreement.
+The sample size is fixed before data collection. No interim analysis is performed and no sequential boundary is used. **Violation:** any analysis of crossing rates before the pre-specified cell sizes are reached, regardless of framing (e.g., "just to check the harness"). **Exception, tightened 2026-07-25:** pilot trajectories used for scorer $\kappa$ calibration at gate G2 are examined only for scorer-vs-human *label agreement*, per-episode. Any inspection of aggregated outcome labels — crossing rate, discovery rate, per-model rate, or any summary statistic across episodes — before the full-run cell sizes are complete is an interim look and is prohibited. This closes the loophole where a reader could argue "we didn't formally analyze the pilot rates, we just read them."
 
 ### 4.2 Per-model rates always reported alongside pooled rates
 

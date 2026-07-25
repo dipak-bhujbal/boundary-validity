@@ -43,6 +43,8 @@ The pre-registered panel is five models across four developers (ADR-002). Claude
 
 Per PLAN.md, Arm M for Opus 4.7 is capped at 100 episodes/cell across 7 conditions under the frontier-tier sample policy (ADR-002), escalating to 300 only in conditions where pilot shows signal. Arm N for Opus 4.7 is 100–300 episodes across conditions B and F. Assuming a mid-length agentic trajectory (~15–25k input tokens, ~2–5k output tokens per episode at current Opus pricing), total Opus spend across arms M and N is estimated at $350–$450. The **$500 request** covers this envelope with a small buffer for pilot re-runs, scorer-calibration episodes, and any conditions promoted from 100 to 300 episodes.
 
+**Disclosure of parallel applications.** I have submitted (or plan to submit) analogous research-credit requests to Anthropic ($500 Claude API credits for Opus 4.7 and Sonnet), Google DeepMind ($400 for Gemini API access), and OpenAI ($500 for GPT-5.5). Total across the three programs is ~$1,400. The study's *gross* API budget is ~$900, so awarded credits above that ceiling either (a) reduce out-of-pocket to zero and any surplus is left unspent, or (b) enable escalating specific frontier cells from 100 ep to 300 ep per ADR-002's sample-size policy. No double-billing: each program funds only that program's model's episodes.
+
 ### 5. Timeline and deliverables
 
 Sixteen-week solo pipeline to TMLR submission (PLAN.md):

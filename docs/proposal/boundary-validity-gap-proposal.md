@@ -46,7 +46,7 @@ The practical stakes are direct and, as Section 4.6 shows, linear rather than ma
 
 ## 3.1 What I am extending
 
-**SandboxEscapeBench** (Marchand et al., arXiv:2603.02277, Oxford and UK AI Security Institute, March 2026; ICML 2026 oral) is the direct antecedent for the environment. It is an Inspect AI capture-the-flag evaluation on a nested sandbox architecture, with the flag on an outer layer containing no known vulnerabilities so a successful exploit is confined to an inner virtual machine. Eighteen scenarios span misconfiguration, privilege allocation, kernel flaws and runtime or orchestration weaknesses, scored by retrieval of a flag on the host outside all container namespaces.
+**SandboxEscapeBench** (Marchand et al., arXiv:2603.02277, Oxford and UK AI Security Institute, March 2026; ICML 2026 [VERIFY: oral vs poster before send]) is the direct antecedent for the environment. It is an Inspect AI capture-the-flag evaluation on a nested sandbox architecture, with the flag on an outer layer containing no known vulnerabilities so a successful exploit is confined to an inner virtual machine. Eighteen scenarios span misconfiguration, privilege allocation, kernel flaws and runtime or orchestration weaknesses, scored by retrieval of a flag on the host outside all container namespaces.
 
 Its threat model is a motivated adversarial agent with shell access that has been *told* it is inside a container and *instructed* to break out. That is the correct choice for a capability ceiling. It is also why the benchmark cannot answer the question here. In the notation of Section 4, it fixes two of three factors at unity by construction. I use their scenario suite as an instrument, not a competitor.
 
@@ -409,7 +409,7 @@ Krakovna, V., Lindner, D., Ho, L., Farquhar, S., Shah, R. Realistic honeypot eva
 
 Lynch, A., Wright, B., Larson, C., Ritchie, S. J., Mindermann, S., Perez, E., Troy, K. K., Hubinger, E. Agentic Misalignment: How LLMs Could Be Insider Threats. October 2025.
 
-Marchand, R., O Cathain, A., Wynne, J., Giavridis, P. M., Deverett, S., Wilkinson, J., Gwartz, J., Coppock, H. Quantifying Frontier LLM Capabilities for Container Sandbox Escape. arXiv:2603.02277, March 2026. ICML 2026 oral.
+Marchand, R., O Cathain, A., Wynne, J., Giavridis, P. M., Deverett, S., Wilkinson, J., Gwartz, J., Coppock, H. Quantifying Frontier LLM Capabilities for Container Sandbox Escape. arXiv:2603.02277, March 2026. ICML 2026 [VERIFY: oral vs poster before send].
 
 Meinke, A., Schoen, B., Scheurer, J., Balesni, M., Shah, R., Hobbhahn, M. Frontier Models are Capable of In-context Scheming. January 2025.
 
