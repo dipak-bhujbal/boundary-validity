@@ -18,3 +18,4 @@ Every material decision in this project gets an ADR. ADRs are append-only: to ch
 | [ADR-002](ADR-002-panel-selection.md) | Model panel selection | Accepted |
 | [ADR-003](ADR-003-command-contract-v0.md) | Scoring command contract v0 | Proposed (revised at pilot κ gate) |
 | [ADR-004](ADR-004-osf-preregistration-protocol.md) | OSF pre-registration protocol | Proposed (locks at end of week 2) |
+| [ADR-005](ADR-005-neutering-wrapper-design.md) | Neutering-wrapper design (principles + interface) | Proposed — full spec at week 6 |
