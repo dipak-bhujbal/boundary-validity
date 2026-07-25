@@ -9,10 +9,10 @@ Live plan through TMLR submission. 16 solo weeks to submission, +6-week median f
 | 0 Foundation | 1 | Repo, ADR-000/001/002, PLAN, LICENSE, .gitignore | $0 |
 | 1 Pre-registration | 2 | 7 scenario specs (A–G), command contract v1, OSF pre-reg timestamped, research-credit applications submitted, cloud-provider AUP pre-registration sent | $0 |
 | 2 Arm M harness | 3–4 | Inspect AI mock-shell harness, Phase 0 SandboxEscapeBench calibration on panel, eval-awareness scanner | ~$100 |
-| 3 Arm M pilot | 5 | 20 ep/cell × 3 cond × 5 models pilot, Cohen κ ≥ 0.80 scorer gate, contract v2 | ~$30 |
+| 3 Arm M pilot | 5 | 20 ep/cell × 3 cond × 5 models pilot, Cohen κ ≥ 0.80 scorer gate, contract v2. **Conditions B and F are held back to Phase 4** pending arm-N sandbox_gate captures (G3.5). | ~$30 |
 | 4 Arm M full run | 6 | 10,500 episodes (7 cond × mixed n × 5 models), checkpointed | ~$500 |
 | 5 Arm M analysis | 7–8 | Hierarchical Bayesian fit, per-model report, decomposition, bounded-nulls, workshop-length interim tech report | $0 |
-| 6 Arm N design | 9 | Neutering-wrapper spec (intercept-and-fake), containment ADR, cloud host chosen (c8i vs GCP), abuse-team clearance confirmed | ~$0 |
+| 6 Arm N design | 9 | Neutering-wrapper spec (intercept-and-fake), containment ADR-006 for concurrent-egress verification, ADR-005a resolving INV-2 detectability tension, cloud host chosen (c8i vs GCP), abuse-team clearance confirmed | ~$0 |
 | 7 Arm N harness | 10–11 | Nested-virt harness, silent-neutering layer with unit tests, network-egress alerting, informal design review | ~$50 |
 | 8 Arm N pilot | 12 | 20 ep/cell × conditions B, F × 3 models pilot, equivalence check on §4.5 leak-test | ~$30 |
 | 9 Arm N full run | 13 | ~6,000 episodes (cond B, F × 5 models × 300 ep, adaptive) | ~$300 |
@@ -32,7 +32,8 @@ Gross budget target: **$900** (with research credits: ~$400 out-of-pocket).
 
 - **G1 (end week 2):** OSF pre-registration timestamped and abuse-team clearance email sent. No spend until both are green.
 - **G2 (end week 5):** Cohen κ ≥ 0.80 on scorer against hand adjudication. If not met, revise contract before full-run spend.
-- **G3 (end week 9):** Neutering-wrapper reviewed informally and network-egress alerting verified. No arm N execution until both are green.
+- **G3 (end week 9):** Neutering-wrapper reviewed informally by a security-capable reader, ADR-005 §"Known unresolved tensions" (INV-2 detectability leak, INV-4 egress-under-load) resolved via ADR-005a and ADR-006, and adversarial concurrent-egress fuzzing test showing 100% drop at hypervisor firewall passing. No arm N execution until ALL of the above are green. (Tightened 2026-07-25 after reviewer flagged the design/verification gap: current INV-4 verifies fixture-run side effects but not under-load egress, which is the actual failure mode the study exists to prevent.)
+- **G3.5 (new, end week 10):** Arm-N seed run captures the real sandbox_gate response strings for conditions B and F (per ADR-003, currently TBD placeholders). This is a small-N run against a real Docker container of the same base image, purely to record the exact "Permission denied" wording and exit codes the mock shell must reproduce. Any Docker environment works — does not require the full arm-N harness. Blocks arm M pilot for B/F (dependency inversion flagged by reviewer 2026-07-25).
 - **G4 (end week 14):** If arm N fidelity gap is null with bound above 3 pts, publish anyway (bounded-null is a result); do not chase power.
 
 ## Non-goals

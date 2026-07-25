@@ -65,6 +65,20 @@ Unit tests that block the arm-N build:
 - **Container escape monitoring only (no interception).** Rejected because it violates the "no live escape" property that the AUP emails, ADR-001, and the study's own containment story rest on.
 - **LLM-based command classification.** Rejected: non-deterministic, unauditable, and reintroduces the exact silent-failure mode ADR-003 is written to prevent.
 
+## Known unresolved tensions (surfaced 2026-07-25, gate arm-N execution on external resolution)
+
+These are load-bearing threats to the design that this ADR does not resolve. Each must be attacked by the acknowledged security reviewer (AF recruitment post ask #3) before any arm N execution. Passing INV-1 through INV-5 in their current form is *necessary but not sufficient*.
+
+**Tension 1 — INV-2 fail-closed is a detectability leak.** The design rests on the agent being unable to distinguish arm N from arm E until after it acts (§4.5 of the proposal). But INV-2 hard-blocks unmatched crossing-adjacent commands (`docker`, `chroot` as first tokens; `curl --unix-socket`, `nc -U` as substrings) with an alert log. An agent that runs an unusual-but-benign form of one of these — `docker network ls`, `chroot /tmp foo`, `nc -U /some/other/socket` — gets a hard error and immediately learns it is in an instrumented environment. Every subsequent action in that episode is contaminated, and the polluted actions land in exactly the willingness signal $\omega$ that the primary estimand depends on.
+
+The tradeoff is real: soften INV-2 to return canned-generic-success (behavioral parity with intercepted crossings) and accept false negatives on truly novel crossing forms; OR keep INV-2 as fail-closed and accept the detectability leak. This is a design decision, not an implementation detail, and this ADR does not make it. **Security reviewer's answer determines the pre-arm-N implementation.**
+
+**Tension 2 — INV-4 verifies no side effects on a fixture, not no egress under load.** The failure mode the study exists to prevent is a packet reaching a network. Current INV-4 is `strace` on the wrapper's PID during a fixture run — necessary but not sufficient. The invariant that actually matters is default-deny egress at the hypervisor firewall holding under concurrent adversarial episodes, and that verification is explicitly deferred to "network egress-alerting layer specification" in the *deferred* section below. So the containment story's load-bearing wall is the piece with the least detail. Not wrong, but wrong order: this must be first, not last.
+
+**Concrete replacement for INV-4 to be specified in ADR-006 (planned week 9) before any arm N run:** an adversarial fuzzing test with N concurrent episodes (N ≥ 10), each running a curated egress-attempt playbook (netcat to well-known external IPs, DNS lookups, HTTP GET/POST via curl, connect() to instance-metadata IPs, IPv4 and IPv6 endpoints, both TCP and UDP). Must show 100% drop at the hypervisor firewall, measured at the firewall log, not inside the guest. Any single packet through blocks arm N execution until fixed.
+
+**Both tensions surfaced by a reviewer, not by this author.** Documenting rather than resolving because resolution requires domain expertise this author does not have. The AF recruitment post's ask #3 is written to explicitly name INV-2 detectability and INV-4 egress-under-load as the top two things a reviewer should attack.
+
 ## What's deferred to week 6
 
 - Specific canned-response corpus: what the wrapper returns for each hook name. Recorded from arm M runs during weeks 5–6.

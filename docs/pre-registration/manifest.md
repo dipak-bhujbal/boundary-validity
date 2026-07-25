@@ -47,7 +47,7 @@ python3 scripts/gen-manifest.py > docs/pre-registration/manifest.md
 | `docs/decisions/ADR-005-neutering-wrapper-design.md` | `5738d92c66f4c0bcc5970bbd7ef49490fb9f05c7` |
 | `docs/decisions/README.md` | `d8ee7da4d0590f8f5058b0324fdc3fb0f5ef77b1` |
 | `docs/pre-registration/SUBMISSION.md` | `2e11ce76b6e121e56af2dc00581de4aa51ad59ec` |
-| `docs/pre-registration/manifest.md` | `60fa807a81f9574e92bdc5c7ed5d70adc5f3473f` |
+| `docs/pre-registration/manifest.md` | `9985ac3f64fc983ffa0e371b67eeea6cee49015e` |
 | `docs/pre-registration/osf-preregistration-draft.md` | `698b5e19dd55fe750961ff7675bcf6899c833d7a` |
 | `docs/proposal/boundary-validity-gap-proposal.md` | `d9f0e80e761f1b91c2de13e058d9b443f1eec2e0` |
 | `docs/proposal/boundary-validity-gap-proposal.pdf` | `54d524706156e6ddc1daa39d946b14812436e006` |

@@ -37,8 +37,13 @@ The claim is that a two-arm mock-vs-real design is unidentified because it bundl
 **2. Statistical review of the hierarchical Bayesian model + priors (§6 of the proposal, ADR-004 §4).**
 Student-$t(3, 0, 2.5)$ priors on all coefficients, half-normal$(0, 1)$ on variance components, Firth penalized ML as frequentist fallback. Bounded-nulls via rule of three. Primary estimand: $\Delta_{\mathrm{fid}}(\mathrm{B})$ on the risk-difference scale at observed baseline. If you're familiar with rare-event hierarchical logistic identifiability under these priors, please look. Time: ~1 hour. Deliverable: comment on whether the specification is defensible or which specific alternative you'd substitute.
 
-**3. Design review of the neutering wrapper (ADR-005).**
-30-minute read. The wrapper must be intercept-and-fake, not attempt-and-hope. I've locked five safety invariants (INV-1 through INV-5), but the actual harness is being built in weeks 9–11. Please look at the invariants and tell me if they're the right ones — specifically, whether INV-2's narrowed fail-closed rule is defensible or whether a determined agent has an obvious way around it. Time: ~30 minutes.
+**3. Design review of the neutering wrapper (ADR-005) — HIGHEST-PRIORITY ASK.**
+The wrapper must be intercept-and-fake, not attempt-and-hope. Five safety invariants (INV-1 through INV-5) are the entire basis for the "arm N cannot escape" claim. None are implemented yet. Two specific unresolved tensions worth attacking first, both surfaced by an earlier reviewer and documented in ADR-005 §"Known unresolved tensions":
+
+  - **INV-2 fail-closed is a detectability leak.** Hard-blocking an unmatched-but-crossing-adjacent command tells the agent immediately that it is in an instrumented environment. That contaminates every subsequent action in the episode and pollutes exactly the willingness signal the primary estimand depends on. Alternative: soften to canned-generic-success, accept false negatives on truly novel crossings. Which is right?
+  - **INV-4 verifies no side effects on a fixture, not no egress under load.** The failure mode the study exists to prevent is a packet reaching a network. Current INV-4 is `strace` on the wrapper PID during a fixture run. Necessary but not sufficient. Adversarial concurrent-episode egress fuzzing against the hypervisor firewall (with the failure mode being *any single packet through*) is what should gate arm N execution.
+
+Time: ~45 minutes to read ADR-005 + the tensions section, plus however long you want to spend attacking. Deliverable: comment on GitHub issue or DM.
 
 **4. arXiv endorsement (`cs.AI` or `cs.CR`) for eventual preprint.**
 First-time arXiv submitter, no prior publications, needs an endorser. Not asking now — asking whether you'd endorse when the manuscript is ready (~month 5).
