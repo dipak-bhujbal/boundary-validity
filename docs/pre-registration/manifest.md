@@ -13,7 +13,7 @@ python3 scripts/gen-manifest.py > docs/pre-registration/manifest.md
 |:--|:--|
 | `.gitignore` | `dfb7dd9bfcc18e06d13fa1bb3e7a77be379faad1` |
 | `LICENSE` | `f3ea1a4439d35abc9f051cd15161abdff88b88de` |
-| `PLAN.md` | `aedcd53b884b4767bd79f79e70a6ab4141445ebe` |
+| `PLAN.md` | `1e57c1f619805fd7a321ee6fa1370c5627ebd821` |
 | `README.md` | `e4a290c4e34094244839277bdbc82cce9b035a39` |
 | `data/scenarios/A/mock_fs/README.md` | `1a5d708cf94a543069861f0d70e808f21aa93211` |
 | `data/scenarios/A/mock_fs/work/logs/app-2026-07-24.log` | `69fe68c37e31c450b74d10f248872439f7d486a4` |
@@ -35,6 +35,7 @@ python3 scripts/gen-manifest.py > docs/pre-registration/manifest.md
 | `docs/applications/01-anthropic-api-research-credits.md` | `da59942707f6e4bf6941433a2037763c8ad3cb3a` |
 | `docs/applications/02-google-deepmind-api-research-credits.md` | `f3ef79ac822c5d36b0d745cab0943204980f552e` |
 | `docs/applications/03-openai-researcher-access.md` | `48fbad3e10d4b33fb1d8326e445815c81fb3dfe7` |
+| `docs/communications/alignment-forum-recruitment.md` | `82d37c167ebe874f5aeb0fe446510813ac37506e` |
 | `docs/communications/aup-pre-registration/README.md` | `8adcabd1641df2b3c1d1faa172ff8897d5096788` |
 | `docs/communications/aup-pre-registration/aws.md` | `a3f3287a57cbc9bafcf4f2592a802f9562bdf6ef` |
 | `docs/communications/aup-pre-registration/gcp.md` | `a32eafae144a2d1298583f8521cbd118378a70c7` |
@@ -45,13 +46,16 @@ python3 scripts/gen-manifest.py > docs/pre-registration/manifest.md
 | `docs/decisions/ADR-004-osf-preregistration-protocol.md` | `3145b570f8f888774334d95f4a439efa2ea1e180` |
 | `docs/decisions/ADR-005-neutering-wrapper-design.md` | `5738d92c66f4c0bcc5970bbd7ef49490fb9f05c7` |
 | `docs/decisions/README.md` | `d8ee7da4d0590f8f5058b0324fdc3fb0f5ef77b1` |
-| `docs/pre-registration/osf-preregistration-draft.md` | `399c4d6f84dcc3776cedb0b9a8a8e77399432001` |
+| `docs/pre-registration/SUBMISSION.md` | `2e11ce76b6e121e56af2dc00581de4aa51ad59ec` |
+| `docs/pre-registration/manifest.md` | `60fa807a81f9574e92bdc5c7ed5d70adc5f3473f` |
+| `docs/pre-registration/osf-preregistration-draft.md` | `698b5e19dd55fe750961ff7675bcf6899c833d7a` |
 | `docs/proposal/boundary-validity-gap-proposal.md` | `d9f0e80e761f1b91c2de13e058d9b443f1eec2e0` |
 | `docs/proposal/boundary-validity-gap-proposal.pdf` | `54d524706156e6ddc1daa39d946b14812436e006` |
 | `docs/proposal/figs/fig1_positioning.png` | `c9adaebfda7178a7e351d9002c1f181a73ee7f90` |
 | `docs/proposal/figs/fig3_arms.png` | `2e9d5fdf039081c4529dbd3c0a1133fa7394ab62` |
 | `docs/reviews/2026-07-25-independent-review.md` | `2b789094cb73b3e37fadb31b9038390868f80158` |
 | `pyproject.toml` | `d3402ad4d2502430e45950a8908b3c21901e2738` |
+| `scripts/gen-manifest.py` | `65cfbdc98f49f93c47f49323f9d8469f8140543d` |
 | `src/boundary_validity/__init__.py` | `4ddd33f38cb6e89b2ea05465ee29acc1ec0156c1` |
 | `src/boundary_validity/cli.py` | `9d93b0a0f13f3ed9ab7dddc4b6fce7791666d48c` |
 | `src/boundary_validity/models.py` | `e4373c02dd06f7e942fe15c2a6506ab214b3d5c1` |
@@ -61,4 +65,4 @@ python3 scripts/gen-manifest.py > docs/pre-registration/manifest.md
 | `tests/test_schema.py` | `b4a63ef08e76e632aba84f57356b232645bfc17f` |
 | `tests/test_scoring_condition_a.py` | `b011d32c41d4478d24bb5212291c570e4387a76a` |
 
-**Total files pinned:** 49
+**Total files pinned:** 53
