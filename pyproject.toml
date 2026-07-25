@@ -22,7 +22,7 @@ dev = [
     "pytest>=7",
     "pytest-cov",
 ]
-harness = ["inspect-ai>=0.3"]
+harness = ["inspect-ai>=0.3", "anthropic>=0.40"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

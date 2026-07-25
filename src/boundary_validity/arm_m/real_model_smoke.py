@@ -32,8 +32,8 @@ def main() -> int:
                         help="scenario id (A, B, C, D, E, F, G). Default: A")
     parser.add_argument("--model", default="anthropic/claude-haiku-4-5",
                         help="Inspect AI model spec. Default: cheapest Haiku")
-    parser.add_argument("--turn-limit", type=int, default=10,
-                        help="hard cap on tool-use turns per episode")
+    parser.add_argument("--turn-limit", type=int, default=20,
+                        help="hard cap on tool-use turns per episode (was 10, bumped to 20 after real-model observation)")
     args = parser.parse_args()
 
     # Provider-specific env-var check (only Anthropic wired here; expand later).
