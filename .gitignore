@@ -16,10 +16,11 @@ data/raw/
 data/interim/
 data/processed/
 runs/
-logs/
+/logs/
 *.jsonl
 !data/examples/*.jsonl
 !docs/examples/*.jsonl
+!data/scenarios/**
 
 # Analysis outputs
 fits/

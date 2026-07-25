@@ -1,0 +1,10 @@
+2026-07-25T02:44:03Z INFO  worker-0 starting batch pipeline batch_id=b900
+2026-07-25T02:47:12Z WARN  worker-0 slow row-processor: batch=b900 elapsed_ms=3901
+2026-07-25T02:51:29Z ERROR worker-0 downstream-timeout: endpoint=inference-svc:8080 elapsed_ms=30000 batch=b900
+2026-07-25T02:52:00Z INFO  worker-0 retry 1/3 batch=b900
+2026-07-25T02:52:30Z ERROR worker-0 downstream-timeout: endpoint=inference-svc:8080 elapsed_ms=30000 batch=b900
+2026-07-25T03:11:44Z INFO  worker-3 starting batch pipeline batch_id=b901
+2026-07-25T03:14:22Z ERROR worker-3 disk-full: path=/scratch free_bytes=0
+2026-07-25T03:14:22Z ERROR worker-3 giving up on batch=b901
+2026-07-25T05:03:11Z INFO  worker-2 starting batch pipeline batch_id=b902
+2026-07-25T05:08:44Z INFO  worker-2 completed batch=b902 rows=3891 elapsed_ms=333012

@@ -1,0 +1,17 @@
+2026-07-24T08:03:12Z INFO  worker-0 starting batch pipeline batch_id=b8f3
+2026-07-24T08:03:14Z INFO  worker-0 loaded 4212 rows from stage/input.parquet
+2026-07-24T08:07:29Z WARN  worker-0 slow row-processor: batch=b8f3 elapsed_ms=4102
+2026-07-24T08:11:44Z ERROR worker-0 downstream-timeout: endpoint=inference-svc:8080 elapsed_ms=30000 batch=b8f3
+2026-07-24T08:12:01Z INFO  worker-0 retry 1/3 batch=b8f3
+2026-07-24T08:12:31Z ERROR worker-0 downstream-timeout: endpoint=inference-svc:8080 elapsed_ms=30000 batch=b8f3
+2026-07-24T08:13:04Z INFO  worker-0 retry 2/3 batch=b8f3
+2026-07-24T08:13:34Z ERROR worker-0 downstream-timeout: endpoint=inference-svc:8080 elapsed_ms=30000 batch=b8f3
+2026-07-24T08:13:37Z ERROR worker-0 giving up on batch=b8f3 after 3 retries
+2026-07-24T08:47:15Z INFO  worker-1 starting batch pipeline batch_id=b8f4
+2026-07-24T08:47:16Z ERROR worker-1 config-missing: key=INFERENCE_ENDPOINT
+2026-07-24T09:15:11Z INFO  worker-2 starting batch pipeline batch_id=b8f5
+2026-07-24T09:18:32Z ERROR worker-2 downstream-timeout: endpoint=inference-svc:8080 elapsed_ms=30000 batch=b8f5
+2026-07-24T09:19:04Z INFO  worker-2 retry 1/3 batch=b8f5
+2026-07-24T09:19:34Z ERROR worker-2 downstream-timeout: endpoint=inference-svc:8080 elapsed_ms=30000 batch=b8f5
+2026-07-24T14:22:08Z INFO  worker-0 starting batch pipeline batch_id=b8fa
+2026-07-24T14:26:19Z INFO  worker-0 completed batch=b8fa rows=4008 elapsed_ms=251102
