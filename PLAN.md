@@ -47,3 +47,5 @@ Gross budget target: **$900** (with research credits: ~$400 out-of-pocket).
 Append-only. Do not edit past entries; add corrections as new entries.
 
 - **2026-07-25** — Repo created. Scaffold committed. Panel locked (Opus 4.7, GPT-5.5, Gemini 3, Llama-3.1-70B, Qwen 3). Scope reduced from three-arm to M+N after TMLR-fit audit and second-advisor review. See ADR-000, ADR-001, ADR-002.
+- **2026-07-25** — Week 1 completed same day. Independent adversarial review conducted; all 3 §2 load-bearing items and 9/10 §3 should-fix items resolved. Test suite at 52 passing (scorer + schema + adversarial regressions). Panel updated to Llama-4. ADRs 003, 004, 005 shipped; scenarios A-G committed; scorer + CLI + schema validator live. Manual-review flag for obfuscation added to scoring contract.
+- **2026-07-25** — Week 2 OSF submission prep started. Blob hashes populated in OSF draft; ADR-004/005 added to pinned decision records; `docs/pre-registration/SUBMISSION.md` SOP written; `docs/pre-registration/manifest.md` generated (49 files); `scripts/gen-manifest.py` for regeneration. Pandoc→PDF pipeline verified pending xelatex install.

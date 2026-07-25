@@ -116,7 +116,7 @@ Replace each placeholder below with the corresponding output. Do not populate sp
 
 ### 3.2 Repository commit hash
 
-**`<REPO_COMMIT_HASH>`** — the Git SHA-1 of the repository at pre-registration submission. After OSF timestamp, this commit is the immutable definition of what was pre-registered. Any subsequent commit that changes a pre-registered artifact constitutes a deviation and requires a filed amendment.
+**`<REPO_COMMIT_HASH>`** — the Git SHA-1 of the repository at pre-registration submission. **POPULATE AT SUBMISSION TIME:** run `git rev-parse HEAD` on the commit that includes this populated pre-registration draft; that commit hash is the pre-registered state and is entered on the OSF form itself (this in-document placeholder cannot self-reference). After OSF timestamp, this commit is the immutable definition of what was pre-registered. Any subsequent commit that changes a pre-registered artifact constitutes a deviation and requires a filed amendment.
 
 The pinned commit contains: ADR-000 through ADR-003, this document, `PLAN.md`, `docs/proposal/boundary-validity-gap-proposal.md`, and all scenario specification files listed below.
 
@@ -126,25 +126,27 @@ Scenario YAML files define, per condition, the exact affordance, the seed setup 
 
 | Path | File hash |
 |:--|:--|
-| `data/scenarios/A/scenario.yaml` | `<SCENARIO_A_HASH>` |
-| `data/scenarios/B/scenario.yaml` | `<SCENARIO_B_HASH>` |
-| `data/scenarios/C/scenario.yaml` | `<SCENARIO_C_HASH>` |
-| `data/scenarios/D/scenario.yaml` | `<SCENARIO_D_HASH>` |
-| `data/scenarios/E/scenario.yaml` | `<SCENARIO_E_HASH>` |
-| `data/scenarios/F/scenario.yaml` | `<SCENARIO_F_HASH>` |
-| `data/scenarios/G/scenario.yaml` | `<SCENARIO_G_HASH>` |
+| `data/scenarios/A/scenario.yaml` | `489606376aa2b73375e07183e404d6324e894406` |
+| `data/scenarios/B/scenario.yaml` | `97108058f9220279365da17cb005c91fa57b7544` |
+| `data/scenarios/C/scenario.yaml` | `b68972cdb69b2c072b060242e5b1ba138b947e50` |
+| `data/scenarios/D/scenario.yaml` | `8e3d7f37937b3678b8f707242e179c300883fbab` |
+| `data/scenarios/E/scenario.yaml` | `80aab5ccf4a14cda873a9a086529b23468ce316a` |
+| `data/scenarios/F/scenario.yaml` | `40078330c986b562480c86f6ec24bc063af7d7ea` |
+| `data/scenarios/G/scenario.yaml` | `8e07a613031c4a78d1fd96f10feed46b07fc3c34` |
 
-Each YAML must conform to the schema defined in ADR-003 (`docs/decisions/ADR-003-command-contract-v0.md`, hash `<ADR003_HASH>`). Any change to a scenario YAML after timestamp is an amendment.
+Each YAML must conform to the schema defined in ADR-003 (`docs/decisions/ADR-003-command-contract-v0.md`, hash `aa336f50f3097689b6fd3007a7f12067d91253c4`). Any change to a scenario YAML after timestamp is an amendment.
 
 ### 3.4 Decision records pinned
 
 | ADR | Title | Hash |
 |:--|:--|:--|
-| ADR-000 | Project charter | `<ADR000_HASH>` |
-| ADR-001 | Arm scope and TMLR fit | `<ADR001_HASH>` |
-| ADR-002 | Model panel selection | `<ADR002_HASH>` |
-| ADR-003 | Scoring command contract v0 | `<ADR003_HASH>` |
-| PLAN.md | Project plan and gates | `<PLAN_HASH>` |
+| ADR-000 | Project charter | `ee640080413f8be60db9e085f98397f75a562e93` |
+| ADR-001 | Arm scope and TMLR fit | `c337e9bb2ef4a81ad73c45b5bc0a05e616263b6d` |
+| ADR-002 | Model panel selection | `449840590d650cdb984d8d937432a4d65fc876a5` |
+| ADR-003 | Scoring command contract v0 | `aa336f50f3097689b6fd3007a7f12067d91253c4` |
+| ADR-004 | OSF pre-registration protocol | `3145b570f8f888774334d95f4a439efa2ea1e180` |
+| ADR-005 | Neutering-wrapper design (principles + interface) | `5738d92c66f4c0bcc5970bbd7ef49490fb9f05c7` |
+| PLAN.md | Project plan and gates | `aedcd53b884b4767bd79f79e70a6ab4141445ebe` |
 
 ### 3.5 Model panel (fixed, per ADR-002)
 
@@ -155,7 +157,7 @@ The panel is fixed at pre-registration. Post-timestamp substitutions are amendme
 | Claude Opus 4.7 | Anthropic | Direct API + OpenRouter (substitution audit) | Frontier ceiling, cost-tier anchor |
 | GPT-5.5 | OpenAI | Direct API + OpenRouter | Frontier ceiling, cost-tier anchor |
 | Gemini 3 | Google DeepMind | Direct API | Signal concentrator per prior work |
-| Llama-3.1-70B-Instruct | Meta | Groq or Together | Open-weight for reproducibility |
+| Llama-4-70B-Instruct (or current Llama-4 tier at pre-reg lock) | Meta | Groq or Together | Open-weight for reproducibility |
 | Qwen 3 | Alibaba | Together or DashScope | Fourth developer, open-weight backup |
 
 **Contingency:** If Gemini 3 is not available on the study account at pre-registration lock, substitute Gemini 2.5 Pro and log the substitution as an amendment to this record.
@@ -168,7 +170,7 @@ The panel is fixed at pre-registration. Post-timestamp substitutions are amendme
 
 ### 3.7 Scoring specification (fixed, per ADR-003)
 
-The command contract v0 (ADR-003, hash `<ADR003_HASH>`) is the pre-registered scoring specification. It defines:
+The command contract v0 (ADR-003, hash `aa336f50f3097689b6fd3007a7f12067d91253c4`) is the pre-registered scoring specification. It defines:
 - Trajectory pre-processing rules (shell command extraction, normalization, sub-command splitting, comment/quote stripping)
 - Label extraction precedence for $D$, $X$, and $Y$
 - Neutering-layer contract for arm N (same regex list, byte-identical, enforced by unit test)
