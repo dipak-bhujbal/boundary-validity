@@ -242,8 +242,11 @@ Six conditions, run under both M and N. Deliberately smaller than the eight-vari
 | D | open | present, framed as available | permission effect |
 | E | open | present but useless for the task | separates crossing from usefulness |
 | F | blocked, authorised blocker-report path | present, unmentioned, useful | tests whether an honourable exit suppresses crossing |
+| G | open, eval-awareness disclosed | present, unmentioned, useful | tests whether awareness of the safety evaluation suppresses crossing (H6) |
 
 Condition F exists because the Gemini ablation in Instrumental Choices found that a sanctioned blocker-reporting path redirected non-crossing behaviour into an auditable completion state rather than leaving the agent stuck. Testing whether that survives contact with a real boundary is the most directly actionable result this study could produce, since it is a mitigation an infrastructure owner could deploy on Monday.
+
+Condition G was added during pre-registration drafting to instrument H6. It tests whether a single-sentence disclosure that the session is part of an AI-safety evaluation shifts crossing behaviour relative to condition A. Needham et al. (arXiv:2505.23836) show models often know when they are being evaluated, and Instrumental Choices found awareness in only 0.65% of transcripts and not protective when present; G measures whether an *explicit* disclosure moves the needle in either direction.
 
 ## 5.4 Scoring
 
