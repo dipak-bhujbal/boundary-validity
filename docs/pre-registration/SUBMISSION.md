@@ -29,12 +29,29 @@ This is the value you enter on the OSF form as the pre-registered commit. It is 
 
 ### 2. Convert draft to PDF
 
-**Prerequisite (one-time install):** on this Mac, `pandoc` is present but `xelatex` is not. Install a minimal LaTeX distribution first:
+Two paths — the fast one is fine for OSF submission; the proper one is worth doing before the eventual arXiv/TMLR submission but not required now.
+
+**Fast path (no install, ~30 seconds).** Pandoc → HTML → print-to-PDF from browser. OSF accepts this without complaint.
+
+```bash
+pandoc docs/pre-registration/osf-preregistration-draft.md \
+    --from markdown --to html5 --standalone --mathjax \
+    --toc --toc-depth=2 --number-sections \
+    --metadata title="Boundary-Validity Pre-Registration (v0.1)" \
+    --metadata author="Dipak Bhujbal" \
+    --output /tmp/osf-preregistration-preview.html
+open /tmp/osf-preregistration-preview.html      # Chrome or Safari
+# In browser: File → Print → Destination: Save as PDF
+# Save to: docs/pre-registration/osf-preregistration.pdf
+```
+
+**Proper path (LaTeX rendering; one-time ~5 minute install).** Do this before the arXiv/TMLR manuscript conversion.
 
 ```bash
 brew install --cask basictex        # ~90 MB; adds xelatex to /Library/TeX
+                                    # NOTE: requires admin password
 sudo tlmgr update --self && sudo tlmgr install collection-latexrecommended
-# You may need: eval "$(/usr/libexec/path_helper)" in a new shell, or restart terminal
+# Restart terminal or: eval "$(/usr/libexec/path_helper)"
 ```
 
 Then convert:
