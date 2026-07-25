@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "boundary-validity"
+version = "0.0.1"
+description = "Measuring the validity gap in propensity evaluations of agentic boundary crossing."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [{name = "Dipak Bhujbal", email = "dipak.bhujbal23@gmail.com"}]
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "pytest-cov",
+]
+# Deferred to week 3 harness build (ADR-005 + Inspect AI):
+# harness = ["inspect_ai>=0.3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q --strict-markers"
