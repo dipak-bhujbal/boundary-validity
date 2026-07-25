@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.env
+.env.local
+
+# Data & artifacts (never commit raw trajectories or credentials)
+data/raw/
+data/interim/
+data/processed/
+runs/
+logs/
+*.jsonl
+!data/examples/*.jsonl
+!docs/examples/*.jsonl
+
+# Analysis outputs
+fits/
+*.stan
+*.pkl
+*.rds
+notebooks/.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Secrets
+*.pem
+*.key
+credentials.json
+secrets.yaml
