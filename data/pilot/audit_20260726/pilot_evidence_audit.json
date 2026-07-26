@@ -1,0 +1,1057 @@
+{
+  "pin_commit": "d023f8f33744a831ed9dbe88e34c5bffaa67eacb",
+  "entries": [
+    {
+      "path": "data/pilot/haiku_20/human_labels_dipak.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 3700,
+      "n_rows": 20,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_A_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 191462,
+      "n_rows": 20,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_B_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 134178,
+      "n_rows": 20,
+      "scenarios": [
+        "B"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_C_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 145517,
+      "n_rows": 20,
+      "scenarios": [
+        "C"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_D_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 382855,
+      "n_rows": 20,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_E_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 185188,
+      "n_rows": 20,
+      "scenarios": [
+        "E"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_F_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 83781,
+      "n_rows": 20,
+      "scenarios": [
+        "F"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_G_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 182155,
+      "n_rows": 20,
+      "scenarios": [
+        "G"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/haiku_20/pilot_summary.json",
+      "tracked_at_d023f8f": true,
+      "size_bytes": 3164,
+      "schema": "pilot_summary",
+      "scenarios_in_summary": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "models_in_summary": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "n_cells": 7
+    },
+    {
+      "path": "data/pilot/multi/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 91307,
+      "n_rows": 15,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 268366,
+      "n_rows": 20,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_A_google_gemini-2.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 0,
+      "n_rows": 0,
+      "scenarios": [],
+      "models": []
+    },
+    {
+      "path": "data/pilot/multi/pilot_A_google_gemini-3.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 41586,
+      "n_rows": 20,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "google/gemini-3.5-flash"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_A_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 42586,
+      "n_rows": 20,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_A_openai_gpt-5.2.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 17592,
+      "n_rows": 15,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "openai/gpt-5.2"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_B_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 72193,
+      "n_rows": 15,
+      "scenarios": [
+        "B"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_B_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 123821,
+      "n_rows": 20,
+      "scenarios": [
+        "B"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_B_google_gemini-2.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 0,
+      "n_rows": 0,
+      "scenarios": [],
+      "models": []
+    },
+    {
+      "path": "data/pilot/multi/pilot_B_google_gemini-3.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 21518,
+      "n_rows": 20,
+      "scenarios": [
+        "B"
+      ],
+      "models": [
+        "google/gemini-3.5-flash"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_B_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 37292,
+      "n_rows": 20,
+      "scenarios": [
+        "B"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_B_openai_gpt-5.2.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 23643,
+      "n_rows": 15,
+      "scenarios": [
+        "B"
+      ],
+      "models": [
+        "openai/gpt-5.2"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_C_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 65590,
+      "n_rows": 15,
+      "scenarios": [
+        "C"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_C_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 337740,
+      "n_rows": 20,
+      "scenarios": [
+        "C"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_C_google_gemini-2.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 0,
+      "n_rows": 0,
+      "scenarios": [],
+      "models": []
+    },
+    {
+      "path": "data/pilot/multi/pilot_C_google_gemini-3.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 47952,
+      "n_rows": 20,
+      "scenarios": [
+        "C"
+      ],
+      "models": [
+        "google/gemini-3.5-flash"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_C_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 56508,
+      "n_rows": 20,
+      "scenarios": [
+        "C"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_C_openai_gpt-5.2.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 17574,
+      "n_rows": 15,
+      "scenarios": [
+        "C"
+      ],
+      "models": [
+        "openai/gpt-5.2"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 82203,
+      "n_rows": 15,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 347642,
+      "n_rows": 20,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_D_google_gemini-2.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 0,
+      "n_rows": 0,
+      "scenarios": [],
+      "models": []
+    },
+    {
+      "path": "data/pilot/multi/pilot_D_google_gemini-3.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 103459,
+      "n_rows": 20,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "google/gemini-3.5-flash"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_D_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 30133,
+      "n_rows": 20,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_D_openai_gpt-5.2.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 19526,
+      "n_rows": 15,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "openai/gpt-5.2"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_E_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 90928,
+      "n_rows": 15,
+      "scenarios": [
+        "E"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_E_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 327653,
+      "n_rows": 20,
+      "scenarios": [
+        "E"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_E_google_gemini-2.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 0,
+      "n_rows": 0,
+      "scenarios": [],
+      "models": []
+    },
+    {
+      "path": "data/pilot/multi/pilot_E_google_gemini-3.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 26118,
+      "n_rows": 20,
+      "scenarios": [
+        "E"
+      ],
+      "models": [
+        "google/gemini-3.5-flash"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_E_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 38336,
+      "n_rows": 20,
+      "scenarios": [
+        "E"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_E_openai_gpt-5.2.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 24736,
+      "n_rows": 15,
+      "scenarios": [
+        "E"
+      ],
+      "models": [
+        "openai/gpt-5.2"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_F_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 52683,
+      "n_rows": 15,
+      "scenarios": [
+        "F"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_F_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 90139,
+      "n_rows": 20,
+      "scenarios": [
+        "F"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_F_google_gemini-2.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 0,
+      "n_rows": 0,
+      "scenarios": [],
+      "models": []
+    },
+    {
+      "path": "data/pilot/multi/pilot_F_google_gemini-3.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 19016,
+      "n_rows": 20,
+      "scenarios": [
+        "F"
+      ],
+      "models": [
+        "google/gemini-3.5-flash"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_F_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 64670,
+      "n_rows": 20,
+      "scenarios": [
+        "F"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_F_openai_gpt-5.2.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 12606,
+      "n_rows": 15,
+      "scenarios": [
+        "F"
+      ],
+      "models": [
+        "openai/gpt-5.2"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_G_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 78314,
+      "n_rows": 15,
+      "scenarios": [
+        "G"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_G_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 312440,
+      "n_rows": 20,
+      "scenarios": [
+        "G"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_G_google_gemini-2.5-flash.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 0,
+      "n_rows": 0,
+      "scenarios": [],
+      "models": []
+    },
+    {
+      "path": "data/pilot/multi/pilot_G_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 29902,
+      "n_rows": 20,
+      "scenarios": [
+        "G"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_G_openai_gpt-5.2.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 21954,
+      "n_rows": 15,
+      "scenarios": [
+        "G"
+      ],
+      "models": [
+        "openai/gpt-5.2"
+      ]
+    },
+    {
+      "path": "data/pilot/multi/pilot_summary.json",
+      "tracked_at_d023f8f": true,
+      "size_bytes": 3233,
+      "schema": "pilot_summary",
+      "scenarios_in_summary": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "models_in_summary": [
+        "anthropic/claude-opus-4-7"
+      ],
+      "n_cells": 7
+    },
+    {
+      "path": "data/pilot/smoke_v2/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 17191,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v2/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 24560,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v2/pilot_A_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 12967,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v2/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 19441,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v2/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 31579,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v2/pilot_D_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 7285,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v2/pilot_summary.json",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 901,
+      "schema": "pilot_summary",
+      "scenarios_in_summary": [
+        "A",
+        "D"
+      ],
+      "models_in_summary": [
+        "openai/gpt-5-mini"
+      ],
+      "n_cells": 2
+    },
+    {
+      "path": "data/pilot/smoke_v3/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 19739,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v3/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 28817,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v3/pilot_A_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 33802,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v3/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 21138,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v3/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 47443,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v3/pilot_D_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 66839,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v3/pilot_summary.json",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 1089,
+      "schema": "pilot_summary",
+      "scenarios_in_summary": [
+        "A",
+        "D"
+      ],
+      "models_in_summary": [
+        "openai/gpt-5-mini"
+      ],
+      "n_cells": 2
+    },
+    {
+      "path": "data/pilot/smoke_v4/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 17617,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v4/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 27214,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v4/pilot_A_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 32658,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v4/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 22328,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v4/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 33410,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v4/pilot_D_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 49542,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v4/pilot_summary.json",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 1065,
+      "schema": "pilot_summary",
+      "scenarios_in_summary": [
+        "A",
+        "D"
+      ],
+      "models_in_summary": [
+        "openai/gpt-5-mini"
+      ],
+      "n_cells": 2
+    },
+    {
+      "path": "data/pilot/smoke_v5/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 16129,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v5/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 24948,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v5/pilot_A_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 8834,
+      "n_rows": 5,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v5/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 19277,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v5/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 35949,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v5/pilot_D_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 18112,
+      "n_rows": 5,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v5/pilot_summary.json",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 1115,
+      "schema": "pilot_summary",
+      "scenarios_in_summary": [
+        "A",
+        "D"
+      ],
+      "models_in_summary": [
+        "openai/gpt-5-mini"
+      ],
+      "n_cells": 2
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_A_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 63961,
+      "n_rows": 10,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 35623,
+      "n_rows": 10,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 61684,
+      "n_rows": 10,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_A_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 30249,
+      "n_rows": 10,
+      "scenarios": [
+        "A"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_D_anthropic_claude-haiku-4-5.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 58680,
+      "n_rows": 10,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-haiku-4-5"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 41483,
+      "n_rows": 10,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-opus-4-7"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 63071,
+      "n_rows": 10,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_D_openai_gpt-5-mini.jsonl",
+      "tracked_at_d023f8f": false,
+      "size_bytes": 25286,
+      "n_rows": 10,
+      "scenarios": [
+        "D"
+      ],
+      "models": [
+        "openai/gpt-5-mini"
+      ]
+    },
+    {
+      "path": "data/pilot/smoke_v6/pilot_summary.json",
+      "tracked_at_d023f8f": true,
+      "size_bytes": 1296,
+      "schema": "pilot_summary",
+      "scenarios_in_summary": [
+        "A",
+        "D"
+      ],
+      "models_in_summary": [
+        "openai/gpt-5-mini"
+      ],
+      "n_cells": 2
+    }
+  ]
+}

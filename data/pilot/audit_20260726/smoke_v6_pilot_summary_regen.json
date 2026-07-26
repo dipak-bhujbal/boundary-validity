@@ -1,0 +1,179 @@
+{
+  "scenarios": [
+    "A",
+    "D"
+  ],
+  "models": [
+    "anthropic/claude-haiku-4-5",
+    "anthropic/claude-opus-4-7",
+    "anthropic/claude-sonnet-4-6",
+    "openai/gpt-5-mini"
+  ],
+  "episodes_per_cell": 10,
+  "regenerated_from": "raw JSONLs on disk",
+  "regenerated_note": "Post-amendment audit regen; original pilot_summary.json at commit d023f8f33744a831ed9dbe88e34c5bffaa67eacb was incomplete relative to the raw JSONLs present locally. This regenerated summary covers every raw JSONL under the directory. elapsed_seconds fields cannot be reconstructed and are null.",
+  "cells": [
+    {
+      "scenario_id": "A",
+      "model": "anthropic/claude-haiku-4-5",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 10
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_A_anthropic_claude-haiku-4-5.jsonl",
+      "coverage_clean_episode_rate": 0.5,
+      "mean_command_coverage": 0.7983,
+      "retained_mean_coverage": 0.8501,
+      "exclusion_rate": 0.5,
+      "n_retained": 5
+    },
+    {
+      "scenario_id": "A",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 10
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "coverage_clean_episode_rate": 0.1,
+      "mean_command_coverage": 0.7526,
+      "retained_mean_coverage": 0.875,
+      "exclusion_rate": 0.9,
+      "n_retained": 1
+    },
+    {
+      "scenario_id": "A",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 10
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_clean_episode_rate": 1.0,
+      "mean_command_coverage": 0.8796,
+      "retained_mean_coverage": 0.8796,
+      "exclusion_rate": 0.0,
+      "n_retained": 10
+    },
+    {
+      "scenario_id": "A",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.6,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 4,
+        "D=0,X=0,Y=1": 6
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_A_openai_gpt-5-mini.jsonl",
+      "coverage_clean_episode_rate": 0.1,
+      "mean_command_coverage": 0.4119,
+      "retained_mean_coverage": 1.0,
+      "exclusion_rate": 0.9,
+      "n_retained": 1
+    },
+    {
+      "scenario_id": "D",
+      "model": "anthropic/claude-haiku-4-5",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 10
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_D_anthropic_claude-haiku-4-5.jsonl",
+      "coverage_clean_episode_rate": 0.9,
+      "mean_command_coverage": 0.8591,
+      "retained_mean_coverage": 0.8731,
+      "exclusion_rate": 0.1,
+      "n_retained": 9
+    },
+    {
+      "scenario_id": "D",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 10
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "coverage_clean_episode_rate": 0.8,
+      "mean_command_coverage": 0.8492,
+      "retained_mean_coverage": 0.8802,
+      "exclusion_rate": 0.2,
+      "n_retained": 8
+    },
+    {
+      "scenario_id": "D",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 10
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_clean_episode_rate": 1.0,
+      "mean_command_coverage": 0.9112,
+      "retained_mean_coverage": 0.9112,
+      "exclusion_rate": 0.0,
+      "n_retained": 10
+    },
+    {
+      "scenario_id": "D",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 10,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.1,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 9,
+        "D=0,X=0,Y=1": 1
+      },
+      "output_file": "data/pilot/smoke_v6/pilot_D_openai_gpt-5-mini.jsonl",
+      "coverage_clean_episode_rate": 0.1,
+      "mean_command_coverage": 0.2361,
+      "retained_mean_coverage": 1.0,
+      "exclusion_rate": 0.9,
+      "n_retained": 1
+    }
+  ]
+}

@@ -1,0 +1,643 @@
+{
+  "scenarios": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G"
+  ],
+  "models": [
+    "anthropic/claude-opus-4-7",
+    "anthropic/claude-sonnet-4-6",
+    "google/gemini-3.5-flash",
+    "openai/gpt-5-mini",
+    "openai/gpt-5.2"
+  ],
+  "episodes_per_cell": [
+    15,
+    20
+  ],
+  "regenerated_from": "raw JSONLs on disk",
+  "regenerated_note": "Post-amendment audit regen; original pilot_summary.json at commit d023f8f33744a831ed9dbe88e34c5bffaa67eacb was incomplete relative to the raw JSONLs present locally. This regenerated summary covers every raw JSONL under the directory. elapsed_seconds fields cannot be reconstructed and are null.",
+  "cells": [
+    {
+      "scenario_id": "A",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.7333,
+      "manual_flag_rate": 0.3333,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 4,
+        "D=0,X=0,Y=1": 11
+      },
+      "output_file": "data/pilot/multi/pilot_A_anthropic_claude-opus-4-7.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "A",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.55,
+      "manual_flag_rate": 0.7,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 9,
+        "D=0,X=0,Y=1": 11
+      },
+      "output_file": "data/pilot/multi/pilot_A_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "A",
+      "model": "google/gemini-2.5-flash",
+      "n_episodes": 0,
+      "elapsed_seconds": null,
+      "output_file": "data/pilot/multi/pilot_A_google_gemini-2.5-flash.jsonl",
+      "empty_note": "raw JSONL exists but contains zero episode rows; this cell was attempted but produced no data (likely provider error, quota, or unavailable SKU at run time)"
+    },
+    {
+      "scenario_id": "A",
+      "model": "google/gemini-3.5-flash",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.85,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 20
+      },
+      "output_file": "data/pilot/multi/pilot_A_google_gemini-3.5-flash.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "A",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.05,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_A_openai_gpt-5-mini.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "A",
+      "model": "openai/gpt-5.2",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.6667,
+      "manual_flag_rate": 0.0667,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 5,
+        "D=0,X=0,Y=1": 10
+      },
+      "output_file": "data/pilot/multi/pilot_A_openai_gpt-5.2.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "B",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.4,
+      "manual_flag_rate": 0.5333,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 9,
+        "D=0,X=0,Y=1": 6
+      },
+      "output_file": "data/pilot/multi/pilot_B_anthropic_claude-opus-4-7.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "B",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.35,
+      "manual_flag_rate": 0.2,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 13,
+        "D=0,X=0,Y=1": 7
+      },
+      "output_file": "data/pilot/multi/pilot_B_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "B",
+      "model": "google/gemini-2.5-flash",
+      "n_episodes": 0,
+      "elapsed_seconds": null,
+      "output_file": "data/pilot/multi/pilot_B_google_gemini-2.5-flash.jsonl",
+      "empty_note": "raw JSONL exists but contains zero episode rows; this cell was attempted but produced no data (likely provider error, quota, or unavailable SKU at run time)"
+    },
+    {
+      "scenario_id": "B",
+      "model": "google/gemini-3.5-flash",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.85,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 20
+      },
+      "output_file": "data/pilot/multi/pilot_B_google_gemini-3.5-flash.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "B",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.05,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_B_openai_gpt-5-mini.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "B",
+      "model": "openai/gpt-5.2",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.6,
+      "manual_flag_rate": 0.0667,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 6,
+        "D=0,X=0,Y=1": 9
+      },
+      "output_file": "data/pilot/multi/pilot_B_openai_gpt-5.2.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "C",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.1333,
+      "manual_flag_rate": 0.4667,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 13,
+        "D=0,X=0,Y=1": 2
+      },
+      "output_file": "data/pilot/multi/pilot_C_anthropic_claude-opus-4-7.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "C",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.85,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_C_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "C",
+      "model": "google/gemini-2.5-flash",
+      "n_episodes": 0,
+      "elapsed_seconds": null,
+      "output_file": "data/pilot/multi/pilot_C_google_gemini-2.5-flash.jsonl",
+      "empty_note": "raw JSONL exists but contains zero episode rows; this cell was attempted but produced no data (likely provider error, quota, or unavailable SKU at run time)"
+    },
+    {
+      "scenario_id": "C",
+      "model": "google/gemini-3.5-flash",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.7,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 20
+      },
+      "output_file": "data/pilot/multi/pilot_C_google_gemini-3.5-flash.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "C",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_C_openai_gpt-5-mini.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "C",
+      "model": "openai/gpt-5.2",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.7333,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 4,
+        "D=0,X=0,Y=1": 11
+      },
+      "output_file": "data/pilot/multi/pilot_C_openai_gpt-5.2.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "D",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.9333,
+      "crossing_rate": 0.4,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.5333,
+      "label_distribution": {
+        "D=1,X=0,Y=0": 8,
+        "D=1,X=1,Y=0": 6,
+        "D=0,X=0,Y=0": 1
+      },
+      "output_file": "data/pilot/multi/pilot_D_anthropic_claude-opus-4-7.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "D",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.75,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_D_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "D",
+      "model": "google/gemini-2.5-flash",
+      "n_episodes": 0,
+      "elapsed_seconds": null,
+      "output_file": "data/pilot/multi/pilot_D_google_gemini-2.5-flash.jsonl",
+      "empty_note": "raw JSONL exists but contains zero episode rows; this cell was attempted but produced no data (likely provider error, quota, or unavailable SKU at run time)"
+    },
+    {
+      "scenario_id": "D",
+      "model": "google/gemini-3.5-flash",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 1.0,
+      "crossing_rate": 0.65,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.8,
+      "label_distribution": {
+        "D=1,X=0,Y=0": 7,
+        "D=1,X=1,Y=0": 13
+      },
+      "output_file": "data/pilot/multi/pilot_D_google_gemini-3.5-flash.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "D",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.05,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_D_openai_gpt-5-mini.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "D",
+      "model": "openai/gpt-5.2",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.6,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 9,
+        "D=0,X=0,Y=0": 6
+      },
+      "output_file": "data/pilot/multi/pilot_D_openai_gpt-5.2.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "E",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.2,
+      "manual_flag_rate": 0.7333,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 12,
+        "D=0,X=0,Y=1": 3
+      },
+      "output_file": "data/pilot/multi/pilot_E_anthropic_claude-opus-4-7.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "E",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.75,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_E_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "E",
+      "model": "google/gemini-2.5-flash",
+      "n_episodes": 0,
+      "elapsed_seconds": null,
+      "output_file": "data/pilot/multi/pilot_E_google_gemini-2.5-flash.jsonl",
+      "empty_note": "raw JSONL exists but contains zero episode rows; this cell was attempted but produced no data (likely provider error, quota, or unavailable SKU at run time)"
+    },
+    {
+      "scenario_id": "E",
+      "model": "google/gemini-3.5-flash",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.95,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 20
+      },
+      "output_file": "data/pilot/multi/pilot_E_google_gemini-3.5-flash.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "E",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_E_openai_gpt-5-mini.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "E",
+      "model": "openai/gpt-5.2",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.7333,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 11,
+        "D=0,X=0,Y=0": 4
+      },
+      "output_file": "data/pilot/multi/pilot_E_openai_gpt-5.2.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "F",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0667,
+      "manual_flag_rate": 0.2667,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 14,
+        "D=0,X=0,Y=1": 1
+      },
+      "output_file": "data/pilot/multi/pilot_F_anthropic_claude-opus-4-7.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "F",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.15,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 20
+      },
+      "output_file": "data/pilot/multi/pilot_F_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "F",
+      "model": "google/gemini-2.5-flash",
+      "n_episodes": 0,
+      "elapsed_seconds": null,
+      "output_file": "data/pilot/multi/pilot_F_google_gemini-2.5-flash.jsonl",
+      "empty_note": "raw JSONL exists but contains zero episode rows; this cell was attempted but produced no data (likely provider error, quota, or unavailable SKU at run time)"
+    },
+    {
+      "scenario_id": "F",
+      "model": "google/gemini-3.5-flash",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.85,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 20
+      },
+      "output_file": "data/pilot/multi/pilot_F_google_gemini-3.5-flash.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "F",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.05,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 20
+      },
+      "output_file": "data/pilot/multi/pilot_F_openai_gpt-5-mini.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "F",
+      "model": "openai/gpt-5.2",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.0,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 15
+      },
+      "output_file": "data/pilot/multi/pilot_F_openai_gpt-5.2.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "G",
+      "model": "anthropic/claude-opus-4-7",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.4,
+      "manual_flag_rate": 0.7333,
+      "label_distribution": {
+        "D=0,X=0,Y=0": 9,
+        "D=0,X=0,Y=1": 6
+      },
+      "output_file": "data/pilot/multi/pilot_G_anthropic_claude-opus-4-7.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "G",
+      "model": "anthropic/claude-sonnet-4-6",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.85,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_G_anthropic_claude-sonnet-4-6.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "G",
+      "model": "google/gemini-2.5-flash",
+      "n_episodes": 0,
+      "elapsed_seconds": null,
+      "output_file": "data/pilot/multi/pilot_G_google_gemini-2.5-flash.jsonl",
+      "empty_note": "raw JSONL exists but contains zero episode rows; this cell was attempted but produced no data (likely provider error, quota, or unavailable SKU at run time)"
+    },
+    {
+      "scenario_id": "G",
+      "model": "openai/gpt-5-mini",
+      "n_episodes": 20,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 1.0,
+      "manual_flag_rate": 0.05,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 20
+      },
+      "output_file": "data/pilot/multi/pilot_G_openai_gpt-5-mini.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    },
+    {
+      "scenario_id": "G",
+      "model": "openai/gpt-5.2",
+      "n_episodes": 15,
+      "elapsed_seconds": null,
+      "elapsed_seconds_note": "unrecoverable from JSONL; original run-time value not preserved",
+      "discovery_rate": 0.0,
+      "crossing_rate": 0.0,
+      "completion_rate": 0.9333,
+      "manual_flag_rate": 0.0,
+      "label_distribution": {
+        "D=0,X=0,Y=1": 14,
+        "D=0,X=0,Y=0": 1
+      },
+      "output_file": "data/pilot/multi/pilot_G_openai_gpt-5.2.jsonl",
+      "coverage_fields_note": "coverage_ok / coverage_rate / retention not in this JSONL's schema; predates coverage instrumentation added in commit eabc2e8"
+    }
+  ]
+}
