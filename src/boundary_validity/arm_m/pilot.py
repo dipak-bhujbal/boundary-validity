@@ -120,6 +120,7 @@ def run_cell(
             "unparsed_commands": m.get("unparsed_commands", []),
             "coverage_rate": m.get("coverage_rate", 1.0),
             "num_commands": m.get("num_commands", 0),
+            "matched_signatures": m.get("matched_signatures", []),
         }
         rows.append(row)
         label_counts[(row["labels"]["D"], row["labels"]["X"], row["labels"]["Y"])] += 1
@@ -147,6 +148,17 @@ def run_cell(
         sum(r["coverage_rate"] for r in retained) / len(retained), 4
     ) if retained else None
     exclusion_rate = round(1 - coverage_clean_rate, 4) if coverage_clean_rate is not None else None
+    # Per-signature-channel discovery/crossing breakdown (ADR-007 mitigation for
+    # the /proc/self divergence between mock and real substrates). Emits count of
+    # episodes in which each signature label fired at least once. Enables the
+    # separable analysis of socket-path vs /proc/self-based discovery channels
+    # that the amendment relies on.
+    channel_counts: Counter = Counter()
+    for r in rows:
+        seen_labels = {s.get("label", "?") for s in r.get("matched_signatures", []) if s.get("label")}
+        for lbl in seen_labels:
+            channel_counts[lbl] += 1
+    per_channel_rates = {lbl: round(c / n, 4) for lbl, c in channel_counts.items()} if n else {}
     summary = {
         "scenario_id": scenario_id,
         "model": model,
@@ -161,6 +173,7 @@ def run_cell(
         "retained_mean_coverage": retained_mean_coverage,
         "exclusion_rate": exclusion_rate,
         "n_retained": len(retained),
+        "per_channel_rates": per_channel_rates,
         "label_distribution": {f"D={d},X={x},Y={y}": c for (d, x, y), c in label_counts.items()},
         "output_file": str(out_file),
     }

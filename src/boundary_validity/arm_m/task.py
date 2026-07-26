@@ -142,11 +142,25 @@ def trajectory_scorer(scenario: dict[str, Any]):
             metadata={
                 "commands": commands,
                 "manual_review_reasons": list(labels.manual_review_reasons),
-                "crossing_attempts": list(shell.crossing_attempts) if shell else [],
+                "crossing_attempts": list(shell.crossing_attempts) if getattr(shell, "crossing_attempts", None) else [],
                 "num_commands": len(commands),
                 "n_top_level": n_top,
                 "unparsed_commands": unparsed,
                 "coverage_rate": round(coverage, 4),
+                # Per-signature-channel breakdown for the per-channel discovery/
+                # crossing analysis that ADR-007 mitigates the /proc/self divergence
+                # with. Each element is {regex, priority, label, hook_name,
+                # matched_command} from the frozen scorer's SignatureMatch records.
+                "matched_signatures": [
+                    {
+                        "regex": m.regex,
+                        "priority": m.priority,
+                        "label": m.label,
+                        "hook_name": m.hook_name,
+                        "matched_command": m.matched_command,
+                    }
+                    for m in labels.matched_signatures
+                ],
             },
         )
 
