@@ -112,10 +112,13 @@ def run_cell(
                 "X": int(v.get("X", 0)),
                 "Y": int(v.get("Y", 0)),
                 "manual_flag": int(v.get("manual_flag", 0)),
+                "coverage_ok": int(v.get("coverage_ok", 1)),
             },
             "commands": m.get("commands", []),
             "crossing_attempts": m.get("crossing_attempts", []),
             "manual_review_reasons": m.get("manual_review_reasons", []),
+            "unparsed_commands": m.get("unparsed_commands", []),
+            "coverage_rate": m.get("coverage_rate", 1.0),
             "num_commands": m.get("num_commands", 0),
         }
         rows.append(row)
@@ -130,6 +133,20 @@ def run_cell(
 
     # Aggregate: crossing rate = mean(X), discovery rate = mean(D), etc.
     n = len(rows)
+    # Four balance-criterion numbers per Codex's stopping-criterion framing:
+    #   (1) retained_mean_coverage: mean cmd coverage on episodes with
+    #       coverage_ok=1 (i.e. coverage_rate >= 0.80). This must be >= 0.90.
+    #   (2) exclusion_rate: fraction of episodes with coverage_ok=0.
+    #       This must be <= 0.20.
+    #   (3) all-episode mean coverage (for context).
+    #   (4) retention count (for context on how many episodes make it through).
+    retained = [r for r in rows if r["labels"]["coverage_ok"] == 1]
+    coverage_clean_rate = round(sum(r["labels"]["coverage_ok"] for r in rows) / n, 4) if n else None
+    mean_coverage_rate = round(sum(r["coverage_rate"] for r in rows) / n, 4) if n else None
+    retained_mean_coverage = round(
+        sum(r["coverage_rate"] for r in retained) / len(retained), 4
+    ) if retained else None
+    exclusion_rate = round(1 - coverage_clean_rate, 4) if coverage_clean_rate is not None else None
     summary = {
         "scenario_id": scenario_id,
         "model": model,
@@ -139,11 +156,18 @@ def run_cell(
         "crossing_rate": round(sum(r["labels"]["X"] for r in rows) / n, 4) if n else None,
         "completion_rate": round(sum(r["labels"]["Y"] for r in rows) / n, 4) if n else None,
         "manual_flag_rate": round(sum(r["labels"]["manual_flag"] for r in rows) / n, 4) if n else None,
+        "coverage_clean_episode_rate": coverage_clean_rate,
+        "mean_command_coverage": mean_coverage_rate,
+        "retained_mean_coverage": retained_mean_coverage,
+        "exclusion_rate": exclusion_rate,
+        "n_retained": len(retained),
         "label_distribution": {f"D={d},X={x},Y={y}": c for (d, x, y), c in label_counts.items()},
         "output_file": str(out_file),
     }
     print(f"    → n={n}  D̄={summary['discovery_rate']}  X̄={summary['crossing_rate']}"
-          f"  Ȳ={summary['completion_rate']}  ({summary['elapsed_seconds']}s)",
+          f"  Ȳ={summary['completion_rate']}"
+          f"  excl={exclusion_rate}  retained_cov={retained_mean_coverage}"
+          f"  ({summary['elapsed_seconds']}s)",
           flush=True)
     return summary
 
@@ -200,8 +224,11 @@ def main() -> int:
     print("=" * 60)
     print(f"{'scenario':10} {'model':40} {'n':>4} {'D̄':>6} {'X̄':>6} {'Ȳ':>6}")
     for s in summaries:
+        d = "  n/a" if s["discovery_rate"] is None else f"{s['discovery_rate']:>6}"
+        x = "  n/a" if s["crossing_rate"] is None else f"{s['crossing_rate']:>6}"
+        y = "  n/a" if s["completion_rate"] is None else f"{s['completion_rate']:>6}"
         print(f"{s['scenario_id']:10} {s['model'][:38]:40} {s['n_episodes']:>4} "
-              f"{s['discovery_rate']:>6} {s['crossing_rate']:>6} {s['completion_rate']:>6}")
+              f"{d} {x} {y}")
     return 0
 
 
