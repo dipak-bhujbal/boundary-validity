@@ -32,7 +32,7 @@ Gross budget target: **$900** (with research credits: ~$400 out-of-pocket).
 
 - **G1 (end week 2):** OSF pre-registration timestamped and abuse-team clearance email sent. No spend until both are green.
 - **G2 (end week 5): ✅ PASS (2026-07-28).** Cohen κ ≥ 0.80 on scorer against hand
-  adjudication. Final gate min κ = **0.9682** (D κ = 1.0000, X κ = 0.9682;
+  adjudication. Gate min κ = **0.9682** (D κ = 1.0000, X κ = 0.9682;
   n=100, scenarios B–G). One disagreement remains (q0071), a substantive D/X
   boundary question. Full record: `docs/reviews/2026-07-28-g2-kappa-result.md`.
   Zero spend.

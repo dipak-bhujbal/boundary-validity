@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-28
 **Gate:** PLAN.md **G2** — Cohen κ ≥ 0.80 on the scorer against hand adjudication.
-**Verdict:** **PASS.** Final gate min κ = **0.9682**.
+**Verdict:** **PASS.** Gate min κ = **0.9682**.
 **Spend:** none. No model or API calls were made to produce this result.
 
 ---
