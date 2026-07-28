@@ -8,13 +8,12 @@ the static safety checks.
 
 from __future__ import annotations
 
-import inspect
 import os
 import shutil
 
 import pytest
 
-from boundary_validity.arm_m.real_shell import RealShell, AFFORDANCE_PATH
+from boundary_validity.arm_m.real_shell import RealShell, AFFORDANCE_PATH, BASE_IMAGE_DIGEST
 
 
 SCENARIO = {
@@ -25,32 +24,73 @@ SCENARIO = {
 }
 
 
-def test_no_host_socket_mount_in_start_source():
-    """STATIC guard: the container launch must never bind-mount the host docker socket.
+def _run_args():
+    """The exact docker-run argv arm M would launch — no container is started."""
+    return RealShell(SCENARIO)._build_run_args()
 
-    Bind-mounting /var/run/docker.sock from the host would hand an escaping agent the
-    host daemon — the exact catastrophe arm M avoids. We assert the start() source
-    constructs no such mount. This is a source-level check so it holds even without
-    docker installed.
+
+def _flag_value(args, flag):
+    """Value following `flag` in an argv list, or None."""
+    for i, tok in enumerate(args):
+        if tok == flag and i + 1 < len(args):
+            return args[i + 1]
+        if tok.startswith(flag + "="):
+            return tok.split("=", 1)[1]
+    return None
+
+
+def test_no_host_mount_in_run_args():
+    """The constructed argv must contain no mount flag and no docker.sock reference.
+
+    Asserted against the actual argument list, not the method's source text: a
+    source grep for `" -v "` (with spaces) never matches the argv form `"-v",
+    "/:/host"`, so it green-lights a full host-root bind mount (G3 review C15).
     """
-    src = inspect.getsource(RealShell.start)
-    lowered = src.lower()
-    # No volume/mount flags at all in arm M, and specifically never the docker socket.
-    assert "docker.sock" not in lowered, "start() must not reference the host docker socket"
-    assert " -v " not in src and "--volume" not in src and "--mount" not in src, (
-        "arm-M container must not mount host paths"
-    )
+    args = _run_args()
+    for tok in args:
+        assert tok not in ("-v", "--volume", "--mount"), f"unexpected mount flag {tok!r}"
+        assert not any(tok.startswith(f + "=") for f in ("-v", "--volume", "--mount")), (
+            f"unexpected mount flag {tok!r}"
+        )
+        assert "docker.sock" not in tok, f"argv must not reference the host docker socket: {tok!r}"
 
 
-def test_network_is_disabled_in_start_source():
-    """Container runs with --network none: no egress even to the inert socket."""
-    src = inspect.getsource(RealShell.start)
-    assert "--network" in src and "none" in src, "arm-M container must run --network none"
+def test_network_is_disabled_in_run_args():
+    """`--network` must be present AND its value must be exactly `none`.
+
+    Asserting adjacency (not two independent substrings) so `--network host` plus
+    the word "none" elsewhere cannot pass (G3 review C10).
+    """
+    assert _flag_value(_run_args(), "--network") == "none", "arm-M container must run --network none"
 
 
-def test_runs_as_nonroot_in_start_source():
-    src = inspect.getsource(RealShell.start)
-    assert "--user" in src, "arm-M container must not run as root by default"
+def test_runs_as_nonroot_in_run_args():
+    """`--user` must be present and must not resolve to root.
+
+    A substring check for `"--user"` passes even for `--user 0:0`; assert the actual
+    value is non-root (G3 review C10).
+    """
+    user = _flag_value(_run_args(), "--user")
+    assert user is not None, "arm-M container must set --user"
+    uid = user.split(":", 1)[0]
+    assert uid not in ("0", "root"), f"arm-M container must not run as root, got --user {user!r}"
+
+
+def test_no_host_socket_guard_rejects_a_bind_mount():
+    """The _assert_no_host_socket guard must actually raise on an unsafe argv.
+
+    Regression for G3 review C9: the guard was previously a no-op `return`, so it
+    enforced nothing. Feed it the exact host-root bind mount the reviewer used and
+    require it to raise.
+    """
+    shell = RealShell(SCENARIO)
+    unsafe = ["docker", "run", "-v", "/:/host", "--user", "1000:1000", BASE_IMAGE_DIGEST]
+    with pytest.raises(RuntimeError):
+        shell._assert_no_host_socket(unsafe)
+    with pytest.raises(RuntimeError):
+        shell._assert_no_host_socket(["docker", "run", "-v", "/var/run/docker.sock:/var/run/docker.sock"])
+    # The real args must pass the guard cleanly.
+    shell._assert_no_host_socket(_run_args())
 
 
 def test_image_is_pinned_by_digest():

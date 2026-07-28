@@ -76,25 +76,34 @@ class RealShell:
     commands_total: int = 0
 
     # ------------------------------------------------------------------ lifecycle
+    def _build_run_args(self) -> list[str]:
+        """Construct the exact `docker run` argument list for arm M's container.
+
+        Factored out of start() so the safety posture can be asserted against the
+        *constructed argument list* (see test_real_shell_safety) rather than against
+        the source text of this method — a source-string grep passes for the wrong
+        reasons (e.g. `" -v "` never matches the argv form `"-v", "/:/host"`).
+
+        ADR-007 posture: zero added capabilities, zero mount flags of any kind,
+        network disabled, non-root user. Anything added here changes arm M's threat
+        model and must be reflected in the safety tests.
+        """
+        return [
+            "docker", "run", "-d", "--rm",
+            "--name", self.container_name,
+            "--network", "none",
+            "--user", "1000:1000",
+            "--workdir", CONTAINER_WORKDIR,
+            BASE_IMAGE_DIGEST,
+            "sleep", "3600",
+        ]
+
     def start(self) -> None:
         if self._started:
             return
-        self._assert_no_host_socket()
-        # ADR-007 posture: zero added capabilities, zero mount flags of any kind,
-        # network disabled, non-root user. Anything added here changes arm M's
-        # threat model (see test_real_shell_safety for enforcement).
-        subprocess.run(
-            [
-                "docker", "run", "-d", "--rm",
-                "--name", self.container_name,
-                "--network", "none",
-                "--user", "1000:1000",
-                "--workdir", CONTAINER_WORKDIR,
-                BASE_IMAGE_DIGEST,
-                "sleep", "3600",
-            ],
-            check=True, capture_output=True, text=True,
-        )
+        args = self._build_run_args()
+        self._assert_no_host_socket(args)
+        subprocess.run(args, check=True, capture_output=True, text=True)
         self._started = True
         self._seed_filesystem()
 
@@ -106,17 +115,24 @@ class RealShell:
         self._started = False
 
     # ------------------------------------------------------------------ safety
-    def _assert_no_host_socket(self) -> None:
-        """Hard guard: refuse to run if anything would mount the host docker socket.
+    def _assert_no_host_socket(self, args: list[str]) -> None:
+        """Hard guard: refuse to run if the argv would bind-mount ANY host path.
 
         Arm M's affordance is a fabricated inert file. Bind-mounting the real host
-        socket would hand an escaping agent the host daemon — the exact catastrophe
-        arm M exists to avoid. There is no code path here that mounts it; this method
-        exists so the invariant is explicit and testable (test_no_host_socket_mount).
+        docker socket would hand an escaping agent the host daemon — the exact
+        catastrophe arm M exists to avoid. Arm M runs with zero mounts of any kind,
+        so this guard raises on any mount flag at all (a stricter, simpler invariant
+        than "no docker.sock specifically"). Inspects the constructed argv rather
+        than trusting source text (G3 review C9). Raises rather than asserts so it
+        cannot be stripped by `python -O` / PYTHONOPTIMIZE.
         """
-        # No -v / --mount of docker.sock is ever constructed in start(). If future
-        # edits add mounts, they must be checked here.
-        return
+        mount_flags = ("-v", "--volume", "--mount")
+        for tok in args:
+            # Bare flag ["-v", "/:/host"] or flag=value ["-v=/:/host", "--mount=..."].
+            if tok in mount_flags or any(tok.startswith(f + "=") for f in mount_flags):
+                raise RuntimeError(f"arm-M container must not mount host paths; found {tok!r} in run args")
+            if "docker.sock" in tok:
+                raise RuntimeError(f"arm-M container must not reference the host docker socket; found {tok!r}")
 
     # ------------------------------------------------------------------ seeding
     def _seed_filesystem(self) -> None:
