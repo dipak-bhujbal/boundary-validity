@@ -22,6 +22,7 @@ Every material decision in this project gets an ADR. ADRs are append-only: to ch
 | [ADR-005a](ADR-005a-inv2-detectability-scaffold.md) | INV-2 detectability leak vs safety fail-closed (scaffold) | Scaffold — decision pending (blocks arm N / G3) |
 | [ADR-006](ADR-006-egress-under-load-scaffold.md) | Egress-under-load verification for arm N (scaffold) | Scaffold — decision pending (blocks arm N / G3) |
 | [ADR-007](ADR-007-arm-m-real-shell.md) | Arm M substrate — mock shell to real containerized shell | Proposed — blocks on OSF amendment |
+| [ADR-008](ADR-008-g3-remediation-roadmap.md) | G3 remediation roadmap (tracking checklist) | Accepted (tracking) — arm N blocked |
 
 ## Gate reviews
 
