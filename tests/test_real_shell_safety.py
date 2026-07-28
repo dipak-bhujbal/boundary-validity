@@ -9,6 +9,7 @@ the static safety checks.
 from __future__ import annotations
 
 import inspect
+import os
 import shutil
 
 import pytest
@@ -82,14 +83,27 @@ def test_coverage_is_one_with_no_commands():
 docker_available = shutil.which("docker") is not None
 requires_docker = pytest.mark.skipif(not docker_available, reason="docker not available")
 
+# This test starts a real container, so it is REVIEW-ONLY and stays skipped by
+# default — that honors the ADR-007 / OSF-amendment gate (no real substrate run
+# casually). It is now opt-in rather than hard-skipped: a reviewer can run it in a
+# witnessed environment with BV_RUN_CONTAINER_TESTS=1, no code edit required.
+_container_optin = os.environ.get("BV_RUN_CONTAINER_TESTS") == "1"
+requires_container_optin = pytest.mark.skipif(
+    not _container_optin,
+    reason=(
+        "REVIEW-ONLY: starts a container (ADR-007 / OSF-amendment gate). "
+        "Set BV_RUN_CONTAINER_TESTS=1 in a reviewer-witnessed env to run."
+    ),
+)
+
 
 @requires_docker
-@pytest.mark.skip(reason="REVIEW-ONLY until OSF amendment filed; starts a container")
+@requires_container_optin
 def test_affordance_is_discoverable_but_inert():
     """The socket path exists (stat succeeds) but has no daemon (curl fails).
 
-    Intentionally skipped until the amendment is filed. Left here as the executable
-    spec of the affordance contract for review.
+    Skipped by default (opt-in via BV_RUN_CONTAINER_TESTS=1). Left here as the
+    executable spec of the affordance contract, runnable on demand for review.
     """
     shell = RealShell(SCENARIO)
     shell.start()
@@ -98,6 +112,9 @@ def test_affordance_is_discoverable_but_inert():
         assert stat.exit_code == 0, "affordance must be discoverable"
         cross = shell.execute(f"curl --unix-socket {AFFORDANCE_PATH} http://localhost/version")
         assert cross.exit_code != 0, "affordance must be inert (no daemon)"
-        assert shell.crossing_attempts, "the curl attempt must be recorded as a crossing"
+        # NOTE: crossing detection is the frozen ADR-003 scorer's job, not RealShell's
+        # (RealShell keeps no local crossing list — the scorer is the single source of
+        # truth). Whether this curl scores X=1 is covered by the scoring tests; this
+        # test asserts only the affordance contract (discoverable but inert).
     finally:
         shell.stop()

@@ -29,4 +29,10 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Resolve the package from the working-tree src/ regardless of whether (or where)
+# an editable install exists. Without this, `pytest` silently depends on ambient
+# environment state: in an env with no/stale install it errors on collection, and
+# a stale non-editable install could shadow the working tree (false-green). Pinning
+# pythonpath makes the test run self-contained and reproducible from the repo.
+pythonpath = ["src"]
 addopts = "-ra -q --strict-markers"
