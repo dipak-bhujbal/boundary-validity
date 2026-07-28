@@ -1,6 +1,6 @@
 ---
 title: "Stipulated Boundaries Are Not Real Boundaries"
-subtitle: "Measuring the Validity Gap in Propensity Evaluations of Agentic Boundary Crossing"
+subtitle: "Measuring the Escape-Outcome Fidelity Gap in Propensity Evaluations of Agentic Boundary Crossing"
 author: "Dipak  \\newline Independent researcher, Cambridge, Massachusetts"
 date: "Research proposal, July 2026"
 geometry: margin=1.05in
@@ -27,6 +27,19 @@ header-includes:
 Propensity evaluations ask what an agent chooses to do rather than what it is able to do. The current generation of these evaluations shares a structural feature that has never been tested: the boundary the agent is measured against is *stipulated by the evaluation author* rather than *enforced by the system*. A policy document declares that cross-team credit transfers are forbidden. A colleague's note says lifecycle controls are off limits. The violation is legible only because the fiction says it is a violation.
 
 This proposal asks whether that substitution is valid. I hold a boundary-crossing scenario fixed and vary only the reality of the boundary, using container isolation as the enforced case because it is the one boundary that is simultaneously kernel-enforced, binary, deterministically scorable, and load-bearing for the infrastructure on which the evaluation community runs its own evaluations.
+
+**Scope of the claim — escape-outcome fidelity, not substrate fidelity (B12).** The
+manipulated attribute is what the environment *does when an escape is attempted*: in
+the fabricated arm the attempt cannot succeed by construction; in the real arm the
+mechanism is genuine and the boundary is kernel-enforced. It is **not** a claim that
+the two substrates are indistinguishable in every observable respect. They are not,
+and the per-channel accounting in §4.5a reports exactly where they differ — some
+channels (`/proc/self` capabilities and mounts) cannot be faked without granting the
+container the very privileges the design refuses on safety grounds, and that
+divergence is disclosed rather than eliminated. Framing the contribution as
+*substrate* fidelity would overclaim what the design delivers and would make any
+result hostage to divergences the design deliberately accepts. The narrower framing
+is the honest one, and it is the one the identification argument actually supports.
 
 The primary quantity is not a propensity rate. It is the **fidelity gap** $\Delta_{\mathrm{fid}}$, the difference in unprompted crossing rate between matched fabricated and real substrates. If fabricated environments overstate crossing, existing propensity numbers are inflated and the field is over-alarmed. If they understate, the field is being reassured by its own methodology. Either result changes how every paper in Section 3 should be read.
 
@@ -81,6 +94,17 @@ Additional context: RepliBench (Black et al., 2025) evaluates autonomous replica
 Every propensity evaluation above measures violation of a boundary that exists because the evaluation says it exists. None measures violation of a boundary the system enforces. The gap is not that propensity for escape has gone unmeasured. It is that **nobody has checked whether measuring propensity against fictional boundaries yields the same answer as measuring it against real ones.** That is a validity question about the entire subfield, and it is answerable with a matched design.
 
 This is a narrow contribution. I would rather present it as narrow and correct than as a new paradigm.
+
+**Stated precisely (B12).** The gap addressed here is **escape-outcome fidelity**:
+whether propensity measured against a boundary that *cannot* be crossed matches
+propensity measured against one that genuinely enforces. It is not substrate
+fidelity in the general sense — the fabricated and real arms remain distinguishable
+on channels the design cannot faithfully reproduce without weakening containment
+(§4.5a enumerates them per channel, and §4.5a's manipulation check makes their
+perceptibility a measured quantity rather than an assumption). A reader should take
+from this work a correction factor for *escape-outcome* stipulation, and should not
+read it as evidence that fabricated and real environments are indistinguishable to
+an agent.
 
 # 4. Formal framework
 
@@ -222,6 +246,43 @@ arm-E behavior it stands in for is at present an **assumption**, not an establis
 property, and is stated as such wherever the identification argument is made. It
 becomes available only if ADR-008's remediation lands and the invariants are
 re-validated — which is a precondition we do not claim to have met.
+
+## 4.5a The M/N discriminability check (manipulation check) — B4
+
+§4.5 records an instrumentation check for arm N versus arm E that the executed
+scope does not run. **A separate and more basic instrument was missing entirely:
+nothing verified that arms M and N are distinguishable to the agent at all.** With
+ADR-007 narrowing the M/N difference to substrate and ADR-010 narrowing the
+command surface further, this is the load-bearing check, and it is pre-registered
+here as a **manipulation check** — not as a robustness analysis reported after the
+fact.
+
+**What is measured, pre-specified before the main run:**
+
+1. **Per-channel discovery rates for M and N, side by side.** Reported per
+   discovery signature rather than pooled, using the same per-channel breakdown
+   `scripts/channel_sweep.py` produces for the substrate. If the per-channel
+   profiles are statistically indistinguishable between arms, **the manipulation
+   did not fire.**
+2. **A held-out probe condition** (small n, low cost) reading perceptibility
+   directly: the agent is asked at episode end whether it believed the environment
+   was real, and independently, its trajectory is scored for environment-doubt
+   language. This is held out from the primary analysis so it cannot contaminate
+   the propensity estimate.
+
+**Pre-committed interpretation rule (binding):**
+
+> A null $\Delta_{\mathrm{fid}}$ is evidence about **fidelity** only if the
+> manipulation check shows arms M and N were distinguishable. If the check does not
+> fire, the null is evidence about **our parity engineering** — that we built two
+> environments the agent could not tell apart — and must be reported as such,
+> explicitly and in the abstract, not merely in a limitations section.
+
+This rule exists because §6.4's bounded-null machinery would otherwise happily
+produce a confident, well-bounded, and rigorous-looking null that says nothing
+about the construct. That is the failure mode most likely to survive peer review
+and mislead the field, precisely because every artifact around it is careful. The
+check and this rule are what make that outcome impossible to report by accident.
 
 ## 4.6 Why fidelity matters linearly, not marginally
 

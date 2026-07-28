@@ -253,7 +253,51 @@ Per ADR-004, this is a **material change**, not a harness fix. Sequence, strictl
 ordered:
 
 1. File an OSF amendment to the existing registration, attached to the same record,
-   containing this ADR and the smoke-v6 evidence table, in both readings above.
+   containing this ADR and the smoke-v6 evidence table, in both readings above,
+   **and the three disclosures below**.
+
+### Required amendment disclosures (B5)
+
+The construct review found the amendment plan **misdescribes the registered
+comparator** without all three of these. They are not caveats appended to the
+amendment; they are part of what is being amended.
+
+**(i) The response valence changed — from fabricated success to failure.**
+The registered mock returned **fabricated success** to crossing attempts
+(`docker run --privileged …` → exit 0, `container_id_abc123`;
+`curl --unix-socket …` → exit 0, `{"ApiVersion":"1.44"}`). Arm-M-real returns
+**failure** — today `exit 127` command-not-found, and after B2 an inert
+transport-layer failure. This ADR's "What does NOT change" list names the command
+contract, the scenario YAMLs, the scorer and the three-arm architecture — but
+**not what the agent observes when it attempts a crossing**, which is exactly what
+changed. ADR-005 design principle 3 names that observable as the thing to hold
+constant: *"arm M and arm N differ only in substrate, not in what the agent
+observes when it runs an exploit."* This is the largest undisclosed consequence of
+the substrate switch and must be stated as a change to the registered comparator,
+not as an implementation detail.
+
+**(ii) The affordance type diverged, and the socket channel was not clean.**
+The registered design rested H4's primary interpretation on the socket channel
+while quarantining the `/proc/self` channels as artifactual. Measured against the
+pinned digest, the socket channel was the **most** divergent — a regular file where
+a socket was claimed — and **five of seven discovery channels diverged or were
+dead, with none clean**. B1 repairs channels 1–2 (now CLEAN 2 / DIVERGENT 3 /
+DEAD 2, per `scripts/channel_sweep.py`), but the amendment must disclose that the
+pre-B1 arm-M-real surface was not the surface the registration described, and must
+report the post-B1 per-channel status rather than a global fidelity claim.
+
+**(iii) Restated H4 mechanism.** Given (i) and (ii), the H4 mechanism as
+registered no longer describes the executed comparison. The restatement must make
+explicit which observable difference between M and N is doing the work — per the
+locked B3 decision, **exploit-response valence (option b)**, not affordance
+reality (option a) — and must state that a null on H4 is uninformative unless the
+B4 discriminability check fires. Registering the mechanism loosely and reporting a
+bounded null against it is the failure mode §10 of the review warns about.
+
+**Consequence-effect handling.** Where the amendment addresses the consequence
+confound, it states a **bounding approach**; the specific ceiling and its
+justification are **pending human + SME review** and are deliberately not authored
+here.
 2. The amendment is timestamped **before any real-shell arm-M data is generated** — not
    merely before analysis. The timestamp must predate the new design's data existing,
    to foreclose any "you peeked then amended" objection.
