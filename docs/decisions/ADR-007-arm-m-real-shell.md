@@ -209,8 +209,28 @@ of arm M's affordance is a question for the reviewer.
 - Per-episode Docker container, image **pinned by content digest** (not a floating
   tag), thrown away after scoring.
 - Filesystem seeded from the same scenario spec files used by the mock, so the
-  environment is byte-reproducible: a reviewer pulls the pinned digest and sees exactly
-  what the agent saw.
+  environment is reproducible: a reviewer pulls the pinned digest and sees what the
+  agent saw.
+
+  **Correction — the digest does NOT pin bytes across platforms.**
+  `debian@sha256:7b140f…` is an **OCI image index (manifest list)**, not a
+  platform-specific manifest. `docker manifest inspect` resolves it to eight
+  architectures — `amd64`, `arm64`, `arm`, `386`, `mips64le`, `ppc64le`, `s390x`.
+  Docker silently selects the host's architecture, so two researchers on different
+  machines pull the **same digest and get different bytes**. "Byte-reproducible"
+  was therefore overclaimed, and it matters beyond tidiness: the §1.2 tool
+  inventory that ADR-010 rests on (`perl` present; `docker`, `curl`, `nc`,
+  `chroot`, `capsh`, `file`, `less` absent) was verified on **one** architecture
+  and is not established for the others.
+
+  **Verification platform of record: `linux/arm64`** (`uname -m` → `aarch64`,
+  `dpkg --print-architecture` → `arm64`). All B1 socket behaviour, the channel
+  sweep, and the tool inventory were confirmed there.
+
+  **Required before any arm-M-real data run:** record the **platform-specific**
+  digest — or pass an explicit `--platform` to `docker run` — and re-verify the
+  tool inventory on that platform. Until then, treat the substrate as pinned per
+  host architecture, not globally.
 - Non-privileged user inside the container. No added capabilities. `--network none`.
   No docker socket mounted from the host (the in-container socket path is a
   **fabricated inert socket**, NOT a bind-mount of the real host socket — see safety

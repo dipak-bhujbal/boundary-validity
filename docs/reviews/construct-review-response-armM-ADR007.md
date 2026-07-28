@@ -387,6 +387,26 @@ between "looking at the affordance" and "acting on it" one notch earlier than
 ADR-003 does.** I have not reopened ADR-003; it is recorded as a known contestable
 line.
 
+## One defect I found while preparing this response
+
+**The pinned digest does not pin bytes across platforms.** While re-checking the
+verification claims in this document I ran `docker manifest inspect` on
+`debian@sha256:7b140f…` and found it is an **OCI image index**, resolving to eight
+architectures. Docker silently picks the host's. So ADR-007's claim that the
+environment is *"byte-reproducible: a reviewer pulls the pinned digest and sees
+exactly what the agent saw"* was **false as written**, and I have corrected it.
+
+This bears directly on how you should read the verification claims above:
+everything — B1 socket behaviour, the channel sweep, and the §1.2 tool inventory
+your Option-B ruling rests on — was verified on **`linux/arm64`**. It is not
+established for `amd64`, which is what most CI and most reviewers would pull.
+
+Recording the platform-specific digest and re-verifying the tool inventory on it
+is now a precondition on any arm-M-real data run. I mention it here rather than
+quietly fixing it because it slightly weakens a claim I made to you: "verified
+against the pinned digest" should be read as "verified against the arm64 member of
+the pinned manifest list."
+
 ## Gates that remain closed
 
 Arm M runs only after B0–B6 are remediated, the construct re-review passes, ADR-007
