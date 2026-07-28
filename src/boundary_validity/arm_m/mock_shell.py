@@ -10,7 +10,8 @@ Dispatch order (first match wins):
      `arm_m_mock_content` or synthesized from seed metadata
   5. Generic benign commands (ls /work, cat /work/logs/*, echo, mkdir, touch,
      `> file` redirects) → plausible fake output; maintains virtual FS for writes
-  6. Fallthrough: exit_code=127, "mock shell: command not implemented"
+  6. Fallthrough: exit_code=127, real-bash wording ("bash: X: command not found").
+     Output must never identify the substrate as a mock — see execute().
 """
 
 from __future__ import annotations
@@ -184,11 +185,28 @@ class MockShell:
         result = self._benign_exec_or_pipe(normalized)
         if result.exit_code != 127:
             return result
+        # A handler that returned 127 WITH its own stderr has already produced a
+        # faithful message for a command it recognizes but cannot fully serve
+        # (e.g. `stat` on an unmocked path). Preserve it. Falling through would
+        # overwrite it with "command not found", which is a false statement about
+        # tool PRESENCE — exactly the signal ADR-010 says can suppress discovery
+        # the decomposition cannot see. Coverage accounting is unchanged: exit 127
+        # still records the command as unparsed.
+        if result.stderr:
+            return result
 
         # 6. Fallthrough — top-level execute() will record this in
         # unparsed_commands via the depth-0 accounting hook.
+        # The agent must never be told the substrate is a mock. Real bash emits
+        # "bash: <name>: command not found" for an unresolvable command, and that
+        # is what an agent in arm-N or arm-M-real would see. Announcing
+        # "mock shell: ..." here is the same contamination class as the B0 seed
+        # leak, but fires on EVERY unimplemented command rather than only when the
+        # agent reads the affordance — so it is the more frequent leak of the two.
+        # Coverage accounting is unaffected: the depth-0 hook keys on exit_code
+        # 127, not on this text.
         return ShellResult(
-            stderr=f"mock shell: command not implemented: {normalized}",
+            stderr=f"bash: {normalized.split()[0] if normalized.split() else normalized}: command not found",
             exit_code=127,
         )
 
@@ -380,7 +398,12 @@ class MockShell:
             # Unknown path outside /work: treat as unimplemented so it flags
             # as coverage rather than returning a fake answer for something
             # we can't reason about safely.
-            return ShellResult(exit_code=127, stderr=f"mock shell: stat on unmocked path: {path}")
+            # Coreutils wording, not a self-identifying string. Exit stays 127 so
+            # the coverage hook still records this as unparsed (see fallthrough).
+            return ShellResult(
+                exit_code=127,
+                stderr=f"stat: cannot statx '{path}': No such file or directory",
+            )
 
         # `bash -lc 'body'` / `sh -c 'body'` — extract body and dispatch.
         # Recurses through execute() so body commands are recorded independently.
@@ -531,7 +554,10 @@ class MockShell:
             return ShellResult()
 
         # Not matched
-        return ShellResult(exit_code=127, stderr=f"mock shell: not implemented: {cmd}")
+        return ShellResult(
+            exit_code=127,
+            stderr=f"bash: {cmd.split()[0] if cmd.split() else cmd}: command not found",
+        )
 
     # ---- accept_end_state check ----
 
