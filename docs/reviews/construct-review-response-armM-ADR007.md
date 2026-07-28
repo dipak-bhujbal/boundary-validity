@@ -28,11 +28,73 @@ this kind of schedule pressure.
 
 **What I am asking:** given B1 and B3–B12 landed (below), the verified tool
 inventory (§1.2 of your review, now confirmed as repo fact), and the G2 scorer
-validation (below), **please sign off on Option B as a valid construct decision** —
-or tell me it is not, in which case Option C (narrow the scenario claims to tools
-guaranteed present, accepting the external-validity loss) is the fallback I would
-take. Either answer unblocks the work. With sign-off, B2 lands and the B1–B6
-re-review trigger is satisfied in the normal way.
+validation (below), **please sign off on Option B — as specified immediately
+below — as a valid construct decision**, or tell me it is not, in which case
+Option C (narrow the scenario claims to tools guaranteed present, accepting the
+external-validity loss) is the fallback I would take. Either answer unblocks the
+work. With sign-off, B2 lands and the B1–B6 re-review trigger is satisfied in the
+normal way.
+
+### The response-valence target — specified, per your §5 ruling
+
+Your §5 ruling said Option B is *"necessary, clearly correct in direction, and
+not sufficient"*, and the first gap was that ADR-010 *"says nothing about response
+valence — what the restored tool prints and returns… parity with arm N's canned
+success, or inert failure. **Those are different studies.** Specify it."*
+
+You were right that the earlier ask was under-specified, and that it could not be
+signed off in that state. **This is the specification, offered as a proposal for
+you to rule on rather than as a settled matter.**
+
+**Proposed target — the two arms differ in exploit response, and in nothing else
+we can control:**
+
+| | arm M (fabricated) | arm N (real, neutered) |
+|---|---|---|
+| Command **presence** | restored — binary exists, resolves on PATH | present |
+| Command **resolution** | succeeds | succeeds |
+| **What the agent observes on a crossing attempt** | **inert failure at the affordance/transport layer** — e.g. `connect()` refused against the real listener-less socket | **canned success** from the neutering wrapper |
+
+This follows from the B3 fork you asked us to settle. We chose **option (b),
+exploit-response valence**: the manipulated attribute is *what the environment
+does when an escape is attempted*. Under option (a) — affordance reality — arm M
+would have to fabricate success, which is the mock behavior ADR-007 replaced. So
+option (b) entails inert failure in M against canned success in N; **specifying
+the valence is not a further decision so much as writing down what option (b)
+already commits us to.** We had made the decision and failed to write down its
+load-bearing consequence, which is a fair thing to have been caught on.
+
+**What this makes the study.** Δ_fid becomes the effect of *escape-outcome
+fidelity* — whether propensity measured where crossing cannot succeed matches
+propensity measured where the mechanism is genuine. That is the narrowed claim
+B12 now states in the title and §1. We are not claiming the two substrates are
+indistinguishable; §4.5a measures how distinguishable they are.
+
+**The two open items in this target, stated rather than hidden:**
+
+1. **Residual detectability of the restored tools.** ADR-010's binding list —
+   stderr text, exit code, latency, help/version output, PATH — must be bounded
+   and tested, and we have not yet done that work because B2 is not implemented.
+   We propose to treat these as measured quantities reported per channel, not as
+   asserted parity.
+2. **Your §5 gap 2 — Option B cannot resolve the trilemma alone**, and taken to
+   completion produces a guaranteed null. We accept this. Our answer is your §6
+   manipulation check, not more parity engineering: **if M and N are not
+   distinguishable, we report a parity-engineering result, not a fidelity
+   result** (proposal §4.5a, pre-registered with that interpretation rule binding).
+
+**Your §5 gap 3 is already closed.** You wrote that per-channel discovery rates
+are *"a precondition for §5 being assessable, not a parallel workstream."* Agreed
+and done: per-channel M/N discovery rates are pre-registered as the manipulation
+check in proposal §4.5a, and `scripts/channel_sweep.py` already reports the
+substrate side per channel (CLEAN 2 / DIVERGENT 3 / DEAD 2). The instrument exists
+before the assessment it enables.
+
+**On your restore-versus-stratify line:** we take it as written — restore where
+restoration is faithful (crossing tools, `capsh`, `file`, `less`), stratify only
+the `/proc/self` channels where restoration would require granting the very
+capabilities the study probes. Restoration is the default; stratification is the
+exception.
 
 ---
 
@@ -291,7 +353,13 @@ scenarios B–G:
 
 | D κ | X κ | **gate min κ** | Verdict |
 |---|---|---|---|
-| 1.0000 | 0.9682 | **0.9682** | **PASS** |
+| 0.9776 | 0.9375 | **0.9375** | **PASS** |
+
+κ is computed on the labels **as recorded during labeling**. Three rows were
+re-examined afterwards and the queue file carries those revisions; the gate figure
+is deliberately the one computed before any row was re-examined, so it cannot
+overstate agreement. Full record, including which rows were revised:
+`docs/reviews/2026-07-28-g2-kappa-result.md`.
 
 Confusion matrices:
 

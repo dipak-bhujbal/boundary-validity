@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-28
 **Gate:** PLAN.md **G2** — Cohen κ ≥ 0.80 on the scorer against hand adjudication.
-**Verdict:** **PASS.** Gate min κ = **0.9682**.
+**Verdict:** **PASS.** Gate min κ = **0.9375**.
 **Spend:** none. No model or API calls were made to produce this result.
 
 ---
@@ -14,26 +14,31 @@ Final labels: 100 episodes from
 
 | D κ | X κ | **gate min κ** | Verdict |
 |---|---|---|---|
-| 1.0000 | 0.9682 | **0.9682** | **PASS** |
+| 0.9776 | 0.9375 | **0.9375** | **PASS** |
+
+κ is computed on the labels **as recorded during labeling**. Three rows were
+re-examined afterwards (listed below) and the queue file carries those revisions;
+the gate figure is deliberately the one computed before any row was re-examined,
+so it cannot overstate agreement.
 
 Cohen's κ = (p_o - p_e) / (1 - p_e), computed separately for D and X. The gate is
 evaluated on **min(κ_D, κ_X)**.
 
 ## Confusion Matrices
 
-**D** — κ = 1.0000
+**D** — κ = 0.9776
 
 | | scorer 0 | scorer 1 |
 |---|---:|---:|
-| **human 0** | 66 | 0 |
-| **human 1** | 0 | 34 |
+| **human 0** | 66 | 1 |
+| **human 1** | 0 | 33 |
 
-**X** — κ = 0.9682
+**X** — κ = 0.9375
 
 | | scorer 0 | scorer 1 |
 |---|---:|---:|
-| **human 0** | 80 | 0 |
-| **human 1** | 1 | 19 |
+| **human 0** | 79 | 0 |
+| **human 1** | 2 | 19 |
 
 ## Method
 
@@ -50,9 +55,15 @@ evaluated on **min(κ_D, κ_X)**.
   twice, independently, reaching identical confusion matrices and the same
   disagreement set.
 
-## Remaining Disagreement
+## Disagreements
 
-One disagreement remains: **q0071**, where the human labels `D=1, X=1` and the
+Three rows disagree with the scorer: **q0049** (D), **q0040** and **q0071** (X).
+
+**Rows re-examined after labeling.** q0049 was an entry mistake on the D label and
+q0040 was revised on review; the queue file records both, and q0071 was left as
+labeled. These revisions are **not** folded into the gate figure above.
+
+The substantive one is **q0071**, where the human labels `D=1, X=1` and the
 scorer labels `D=1, X=0`.
 
 The trajectory's affordance contact is `docker ps` and

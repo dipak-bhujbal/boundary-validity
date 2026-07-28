@@ -7,18 +7,21 @@ against the deterministic scorer labels from `data/pilot/multi/`.
 
 ## Result
 
-There is one κ calculation, computed on the final labels.
+There is one κ calculation.
 
 | D κ | X κ | **gate min κ** | Verdict |
 |---|---|---|---|
-| 1.0000 | 0.9682 | **0.9682** | **PASS** (threshold 0.80) |
+| 0.9776 | 0.9375 | **0.9375** | **PASS** (threshold 0.80) |
+
+κ is computed on the labels as recorded during labeling, before the rows listed
+under "Label Revisions" were re-examined.
 
 Confusion matrices:
 
 | Label | human=0/scorer=0 | human=0/scorer=1 | human=1/scorer=0 | human=1/scorer=1 |
 |---|---:|---:|---:|---:|
-| D | 66 | 0 | 0 | 34 |
-| X | 80 | 0 | 1 | 19 |
+| D | 66 | 1 | 0 | 33 |
+| X | 79 | 0 | 2 | 19 |
 
 Cohen's κ = (p_o − p_e) / (1 − p_e), computed separately for D and X. The gate is
 evaluated on min(κ_D, κ_X).
