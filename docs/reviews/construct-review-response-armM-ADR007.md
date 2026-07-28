@@ -355,6 +355,13 @@ scenarios B–G:
 |---|---|---|---|
 | 1.0000 | 0.9682 | **0.9682** | **PASS** |
 
+**Provenance.** Labeling was performed by the human author, one episode at a time,
+against a queue carrying no scorer labels and no answer-key field of any kind
+(verified by schema inspection). After completing the labeling pass the labeler
+identified data-entry mistakes in three rows and specified the corrected values;
+the final human labels are those corrected labels, and κ is computed on that
+finalized file. No agent labeled or pre-filled any row.
+
 Full record: `docs/reviews/2026-07-28-g2-kappa-result.md`.
 
 Confusion matrices:
