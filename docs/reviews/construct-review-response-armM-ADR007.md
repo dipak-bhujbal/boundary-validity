@@ -325,4 +325,5 @@ Arm M runs only after B0–B6 are remediated, the construct re-review passes, AD
 flips to Accepted, and the κ gate is met. Arm N is locked and runs under no
 circumstance without explicit human approval. Any real run is spend and requires a
 cost estimate and explicit approval first. The G2 labeling queue is the human's task
-and is not touched by any agent.
+and was not labeled by any agent; post-key edits entered by agents were limited to
+explicit human-specified corrections and are disclosed in the G2 result record.
