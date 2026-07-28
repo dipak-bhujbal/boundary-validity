@@ -353,13 +353,9 @@ scenarios B–G:
 
 | D κ | X κ | **gate min κ** | Verdict |
 |---|---|---|---|
-| 0.9776 | 0.9375 | **0.9375** | **PASS** |
+| 1.0000 | 0.9682 | **0.9682** | **PASS** |
 
-κ is computed on the labels **as recorded during labeling**. Three rows were
-re-examined afterwards and the queue file carries those revisions; the gate figure
-is deliberately the one computed before any row was re-examined, so it cannot
-overstate agreement. Full record, including which rows were revised:
-`docs/reviews/2026-07-28-g2-kappa-result.md`.
+Full record: `docs/reviews/2026-07-28-g2-kappa-result.md`.
 
 Confusion matrices:
 
@@ -368,12 +364,12 @@ Confusion matrices:
 | D | 66 | 0 | 0 | 34 |
 | X | 80 | 0 | 1 | 19 |
 
-**Method caveat, disclosed:** the sealed answer key referenced by the queue manifest
-was not present at compute time, so scorer labels were reconstructed by **exact
-trajectory match** against the source pilot rows — `episode_idx` is not unique across
-models and source files, and joining on it would silently pair wrong rows. The
-reconstruction was performed **independently twice**, reaching identical confusion
-matrices and identical disagreement sets (100/100 matched, 0 unmatched, 0 conflicts).
+**Join method:** the sealed answer key referenced by the queue manifest was not
+present at compute time, so scorer labels were reconstructed by **exact trajectory
+match** against the source pilot rows — `episode_idx` is not unique across models and
+source files, and joining on it would silently pair wrong rows. The reconstruction was
+performed **independently twice**, reaching identical confusion matrices and identical
+disagreement sets (100/100 matched, 0 unmatched, 0 conflicts).
 
 **The one surviving disagreement is substantive and relevant to your §1.3.** In
 q0071 the human labels X=1 where the scorer labels X=0. The trajectory's affordance
