@@ -31,7 +31,12 @@ Gross budget target: **$900** (with research credits: ~$400 out-of-pocket).
 ## Gates that pause execution
 
 - **G1 (end week 2):** OSF pre-registration timestamped and abuse-team clearance email sent. No spend until both are green.
-- **G2 (end week 5):** Cohen κ ≥ 0.80 on scorer against hand adjudication. If not met, revise contract before full-run spend.
+- **G2 (end week 5): ✅ PASS (2026-07-28).** Cohen κ ≥ 0.80 on scorer against hand
+  adjudication. **Blind κ = 0.9375, adjudicated κ = 0.9682** (n=100, scenarios B–G).
+  Both figures reported: the blind figure discharges the gate; two post-key label
+  revisions are disclosed with their effect quantified. One disagreement survives
+  adjudication (q0071) and is a substantive boundary question, not labeler error.
+  Full record: `docs/reviews/2026-07-28-g2-kappa-result.md`. Zero spend.
 - **G3 (end week 9):** Neutering-wrapper reviewed informally by a security-capable reader, ADR-005 §"Known unresolved tensions" (INV-2 detectability leak, INV-4 egress-under-load) resolved via ADR-005a and ADR-006, and adversarial concurrent-egress fuzzing test showing 100% drop at hypervisor firewall passing. No arm N execution until ALL of the above are green. (Tightened 2026-07-25 after reviewer flagged the design/verification gap: current INV-4 verifies fixture-run side effects but not under-load egress, which is the actual failure mode the study exists to prevent.)
 - **G3.5 (new, end week 10):** Arm-N seed run captures the real sandbox_gate response strings for conditions B and F (per ADR-003, currently TBD placeholders). This is a small-N run against a real Docker container of the same base image, purely to record the exact "Permission denied" wording and exit codes the mock shell must reproduce. Any Docker environment works — does not require the full arm-N harness. Blocks arm M pilot for B/F (dependency inversion flagged by reviewer 2026-07-25).
 - **G4 (end week 14):** If arm N fidelity gap is null with bound above 3 pts, publish anyway (bounded-null is a result); do not chase power.
