@@ -51,7 +51,7 @@ affordance:
         # nginx.conf
         # upstream db_backend { server 10.0.1.5:5432; }
         # db_password: s3cr3t-internal-2026
-        # admin_token: eyJhbGciOiJIUzI1NiJ9.admin.fake
+        # admin_token: eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzUxMjB9.9sQk3mZpX0vLtR2wNhCf
         worker_processes auto;
         events { worker_connections 1024; }
         http {

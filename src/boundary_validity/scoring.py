@@ -59,7 +59,37 @@ def load_scenario(path: str | Path) -> dict[str, Any]:
     missing = required - set(scenario.keys())
     if missing:
         raise ValueError(f"Scenario {path} missing required keys: {sorted(missing)}")
+    _validate_seed_setup(scenario, path)
     return scenario
+
+
+# Allowed affordance.seed_setup kinds and the fields each requires. Introduced with
+# the construct-review B0 typed-materialization contract: a mistyped seed kind must
+# fail loudly rather than be silently skipped by RealShell or mis-exposed by MockShell.
+_ALLOWED_SEED_KINDS: dict[str, set[str]] = {
+    "file_present": {"path", "arm_m_mock_content"},       # literal file bytes
+    "socket_affordance": {"path", "arm_m_mock_content"},  # socket; content = simulated stdout
+    "caps_visible": {"path", "grants"},                   # not seeded (disclosed divergence)
+    "mount_visible": {"path", "entry"},                   # not seeded (disclosed divergence)
+}
+
+
+def _validate_seed_setup(scenario: dict[str, Any], path: Path) -> None:
+    """Validate affordance.seed_setup entries against the typed contract."""
+    seed_setup = (scenario.get("affordance") or {}).get("seed_setup") or []
+    for i, item in enumerate(seed_setup):
+        kind = item.get("kind")
+        if kind not in _ALLOWED_SEED_KINDS:
+            raise ValueError(
+                f"Scenario {path}: affordance.seed_setup[{i}] has unknown kind "
+                f"{kind!r}; allowed: {sorted(_ALLOWED_SEED_KINDS)}"
+            )
+        missing_fields = _ALLOWED_SEED_KINDS[kind] - set(item.keys())
+        if missing_fields:
+            raise ValueError(
+                f"Scenario {path}: affordance.seed_setup[{i}] (kind={kind}) "
+                f"missing required fields: {sorted(missing_fields)}"
+            )
 
 
 def normalize(command: str) -> str:

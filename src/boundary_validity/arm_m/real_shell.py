@@ -101,6 +101,7 @@ class RealShell:
     def start(self) -> None:
         if self._started:
             return
+        self._assert_affordances_materializable()
         args = self._build_run_args()
         self._assert_no_host_socket(args)
         subprocess.run(args, check=True, capture_output=True, text=True)
@@ -115,6 +116,29 @@ class RealShell:
         self._started = False
 
     # ------------------------------------------------------------------ safety
+    def _assert_affordances_materializable(self) -> None:
+        """B0/B1 guard: refuse to run if the scenario has an affordance RealShell
+        cannot yet faithfully seed.
+
+        A `socket_affordance` (e.g. `/var/run/docker.sock`) is a Unix-socket
+        descriptor whose `arm_m_mock_content` is *simulated stdout*, not file bytes.
+        Materializing it as a regular file both leaks fabrication and diverges the
+        primary discovery channel (`stat`/`ls`). Faithful seeding — a real inert
+        socket — is B1, and its exact form is gated on the B3 identification-fork
+        decision. Until B1 lands we refuse rather than silently seed an empty
+        regular file, so **no arm-M-real data is collected for socket-affordance
+        scenarios**. Raises (not asserts) so it holds under `python -O`.
+        """
+        aff = self.scenario.get("affordance", {}) or {}
+        for item in aff.get("seed_setup", []) or []:
+            if item.get("kind") == "socket_affordance":
+                raise NotImplementedError(
+                    f"socket_affordance at {item.get('path')!r} cannot be seeded by "
+                    "RealShell yet (B1, pending the B3 identification-fork decision). "
+                    "No arm-M-real data may be collected for socket-affordance "
+                    "scenarios until the real inert socket is implemented."
+                )
+
     def _assert_no_host_socket(self, args: list[str]) -> None:
         """Hard guard: refuse to run if the argv would bind-mount ANY host path.
 
@@ -138,12 +162,19 @@ class RealShell:
     def _seed_filesystem(self) -> None:
         """Seed the container FS from scenario `affordance.seed_setup`.
 
-        Also places the inert affordance file at AFFORDANCE_PATH. /proc/self/* is
-        deliberately NOT seeded (see ADR-007). If the scenario has a
-        `sandbox_gate` block (B, F), it is applied here — see _apply_sandbox_gate.
+        Only literal `file_present` items are materialized; `socket_affordance`
+        (B1-pending) is refused at start(), and `caps_visible`/`mount_visible` are
+        deliberately NOT seeded (see ADR-007). Nothing is planted that the scenario
+        does not declare. If the scenario has a `sandbox_gate` block (B, F), it is
+        applied here — see _apply_sandbox_gate.
         """
-        seed_items = self._build_seed_setup_items(self.scenario)
-        for item in seed_items:
+        # Materialize ONLY what the scenario explicitly declares. There is no
+        # unconditional AFFORDANCE_PATH backstop: a socket affordance is B1-pending
+        # and refused at start() by _assert_affordances_materializable(), and a
+        # scenario without a docker-socket affordance (e.g. condition E) must NOT
+        # get one planted. Seeding a path the scenario doesn't declare is a silent
+        # construct divergence (construct review B0 / codex-2 cross-review).
+        for item in self._build_seed_setup_items(self.scenario):
             path = item["path"]
             self._write_into_container(path, item.get("content", ""))
             perms = item.get("perms")
@@ -156,15 +187,6 @@ class RealShell:
                 self._exec_raw_as_root(
                     f"chmod {shlex.quote(str(perms))} {shlex.quote(path)}"
                 )
-        # Inert affordance at AFFORDANCE_PATH: place the file if the scenario
-        # didn't already seed one there (scenarios A-G do seed it, but this is a
-        # backstop). Perms come from the scenario's seed_setup entry if present.
-        if not any(item["path"] == AFFORDANCE_PATH for item in seed_items):
-            self._exec_raw_as_root(
-                f"mkdir -p {shlex.quote(str(Path(AFFORDANCE_PATH).parent))}"
-            )
-            self._write_into_container(AFFORDANCE_PATH, "")
-            self._exec_raw_as_root(f"chmod 0666 {shlex.quote(AFFORDANCE_PATH)}")
         # Apply sandbox_gate (scenarios B and F only). In the real shell we do the
         # actual chmod so real bash produces real permission-denied errors; this
         # obviates the mock's `arm_m_mock_responses` scripting and eliminates the
