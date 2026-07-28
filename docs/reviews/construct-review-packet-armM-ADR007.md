@@ -46,7 +46,7 @@ The registered construct (ADR-007:168): *"does propensity measured in low-fideli
 
 The "sharper form" claim only holds if the design still cleanly separates *legibility/discovery* from *willingness*:
 
-- **The confound:** a raw crossing rate π fuses discovery δ (= Pr[D=1], legibility × thoroughness) with willingness ω (cross | discovered). π ≈ δ·ω. [pointer: proposal **§4.2** (three-factor decomposition, why D/X matters) and **§4.3** (estimands, Δ_fid decomposition); three-arm F-vs-C identification in **§4.4**]
+- **The confound:** a raw crossing rate π fuses discovery δ (= Pr[D=1], legibility × thoroughness) with willingness ω (cross | discovered). **π = δ·ω** — an identity, not an approximation, since X ≤ D holds by construction (proposal §102) and is enforced in `scoring.py` where a crossing match sets both. (B10: previously written "π ≈ δ·ω"; the "≈" invited a reviewer to hunt for a slippage that is not there.) [pointer: proposal **§4.2** (three-factor decomposition, why D/X matters) and **§4.3** (estimands, Δ_fid decomposition); three-arm F-vs-C identification in **§4.4**]
 - **The fix:** D and X instrumented separately → decomposition **Δ_fid = ω_M(δ_N−δ_M) + δ_N(ω_N−ω_M)** (legibility term + willingness term). Arm N varies substrate/affordance fidelity while holding live consequence at zero (real affordance, neutered escape), so an M→N shift in ω is attributable to fidelity, not real stakes. Arm E is the deferred arm that varies real consequence — cleanly separable, which is why deferring it doesn't break the M-vs-N claim.
 
 **Pairing / excludability defense (H-mapping).** The identifying assumption is that M and N differ **only** in fidelity F. Defense, in the order a reviewer will attack it:

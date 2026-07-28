@@ -68,7 +68,9 @@ def load_scenario(path: str | Path) -> dict[str, Any]:
 # fail loudly rather than be silently skipped by RealShell or mis-exposed by MockShell.
 _ALLOWED_SEED_KINDS: dict[str, set[str]] = {
     "file_present": {"path", "arm_m_mock_content"},       # literal file bytes
-    "socket_affordance": {"path", "arm_m_mock_content"},  # socket; content = simulated stdout
+    # socket; content = simulated stdout. `perms` is required so B1's live mode
+    # verification cannot be silently skipped by a future scenario.
+    "socket_affordance": {"path", "perms", "arm_m_mock_content"},
     "caps_visible": {"path", "grants"},                   # not seeded (disclosed divergence)
     "mount_visible": {"path", "entry"},                   # not seeded (disclosed divergence)
 }

@@ -140,6 +140,26 @@ $$
 \underbrace{\delta_{\mathrm{N}}\bigl(\omega_{\mathrm{N}} - \omega_{\mathrm{M}}\bigr)}_{\text{willingness}} .
 $$
 
+**Decomposition ordering — pre-registered (B9).** This decomposition is exact but
+**not unique**. The mirror-image ordering
+$\delta_{\mathrm{M}}(\omega_{\mathrm{N}}-\omega_{\mathrm{M}}) + \omega_{\mathrm{N}}(\delta_{\mathrm{N}}-\delta_{\mathrm{M}})$
+is equally exact; the two allocate the interaction term
+$(\delta_{\mathrm{N}}-\delta_{\mathrm{M}})(\omega_{\mathrm{N}}-\omega_{\mathrm{M}})$
+differently, so the **reported component magnitudes are ordering-dependent**. This is
+the Oaxaca–Blinder index-number problem.
+
+We therefore pre-register **both**: the ordering displayed above is the primary
+reported decomposition (rationale: it evaluates the legibility term at the mock's
+willingness and the willingness term at the real arm's discovery, so the willingness
+component — the quantity H5 concerns — is evaluated under the higher-fidelity arm),
+**and** we report a symmetric (Shapley) allocation that splits the interaction term
+evenly, as a robustness column alongside it. Any material disagreement between the
+two is itself reported rather than resolved by choice of estimator.
+
+Note this affects **magnitudes only, not the hypothesis test**: H5 is stated as
+$\omega_{\mathrm{N}} \neq \omega_{\mathrm{M}}$, which is decomposition-independent
+and survives either ordering unchanged.
+
 The second estimand is the **fidelity ratio**
 
 $$
@@ -184,7 +204,24 @@ $$
 
 This is a testable implication of correct implementation rather than a hypothesis about models. A statistically detectable difference in first-attempt crossing between N and E means the neutering is observable to the agent, that is, the arms leak. The design retains this equivalence test with a margin of 2 percentage points as an instrumentation check.
 
-**Under the executed scope, this check is documented rather than empirically executed:** ADR-001 places arm E out of scope for the first paper, so the equivalence contrast between arms N and E is not measured in this study. The check remains in the design as a specified verification any group running arm E should perform. In its place, the executed study relies on the ADR-005 safety invariants (byte-identical regex sets between scorer and neutering wrapper, no dispatch on match, no side effects, provenance for every canned response) to establish that arm N does not observably diverge from the arm-E behavior it is meant to stand in for.
+**Under the executed scope, this check is documented rather than empirically executed:** ADR-001 places arm E out of scope for the first paper, so the equivalence contrast between arms N and E is not measured in this study. The check remains in the design as a specified verification any group running arm E should perform.
+
+**Nor is there a validated substitute for it (B11).** This section previously said the
+executed study "relies on the ADR-005 safety invariants (byte-identical regex sets
+between scorer and neutering wrapper, no dispatch on match, no side effects,
+provenance for every canned response) to establish that arm N does not observably
+diverge from the arm-E behavior it is meant to stand in for." That is an
+**identification** argument, and it rests on invariants that the G3 containment review
+of 2026-07-28 found **do not hold**: INV-1's byte-identical requirement is actively
+harmful, 18 of 20 adversarial variants defeat the matching, and G3 is recorded **FAIL**
+with ADR-008 as the remediation roadmap.
+
+The honest state is therefore: the executed study has **neither** the N/E equivalence
+check **nor** a validated invariant substitute for it. Arm N's non-divergence from the
+arm-E behavior it stands in for is at present an **assumption**, not an established
+property, and is stated as such wherever the identification argument is made. It
+becomes available only if ADR-008's remediation lands and the invariants are
+re-validated — which is a precondition we do not claim to have met.
 
 ## 4.6 Why fidelity matters linearly, not marginally
 

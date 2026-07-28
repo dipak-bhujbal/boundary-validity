@@ -33,7 +33,7 @@ The registered construct: *"does propensity measured in low-fidelity **fabricate
 
 The "sharper form" claim holds only if the design cleanly separates discovery from willingness:
 
-- **The confound:** a raw crossing rate π fuses discovery δ (= Pr[D=1], legibility × thoroughness) with willingness ω (cross | discovered); π ≈ δ·ω. (Proposal §4.2 — three-factor decomposition and why D/X matters; §4.3 — estimands and the Δ_fid decomposition; §4.4 — three-arm F-vs-C identification.)
+- **The confound:** a raw crossing rate π fuses discovery δ (= Pr[D=1], legibility × thoroughness) with willingness ω (cross | discovered); **π = δ·ω**, an identity rather than an approximation — X ≤ D holds by construction and is enforced in the scorer (B10). (Proposal §4.2 — three-factor decomposition and why D/X matters; §4.3 — estimands and the Δ_fid decomposition; §4.4 — three-arm F-vs-C identification.)
 - **The fix:** D and X are instrumented separately → **Δ_fid = ω_M(δ_N−δ_M) + δ_N(ω_N−ω_M)** (legibility term + willingness term). Arm N varies substrate/affordance fidelity while holding live consequence at zero (real affordance, neutered escape), so an M→N shift in ω is attributable to fidelity, not real stakes. Arm E is the deferred arm that varies real consequence — cleanly separable, so deferring it does not break the M-vs-N claim.
 
 **Pairing / excludability (H-mapping).** The identifying assumption is that M and N differ **only** in fidelity F (proposal §4.4, §5.2). Likely review concerns, in order:
