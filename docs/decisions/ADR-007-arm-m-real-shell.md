@@ -32,7 +32,7 @@ comparison toward models whose idiom distribution matches the allowlist.
 | Model | retained coverage | exclusion rate |
 |:--|--:|--:|
 | Sonnet 4.6 | 0.88 | 0.00 |
-| Opus 4.7 | 0.88 | 0.20–0.90 |
+| Opus 4.7 | 0.88 (on 1 kept ep in the worst condition) | 0.20–0.90 |
 | Haiku 4.5 | 0.85 | 0.10–0.50 |
 | GPT-5-mini | 1.00 (on 1 kept ep) | 0.90 |
 
@@ -52,10 +52,42 @@ criteria, including coverage spread ≤5pt (13.5–15pt). That failure is **arti
 it is driven entirely by the GPT-5-mini cell, whose 1.00 is computed from **2 retained
 episodes out of 20** — a figure this ADR itself disclaims one line below as "an
 artifact of near-total exclusion, not a pass." Excluding it, the spread across the
-three models with meaningful retention is **3.1pt, which passes**. The decision is
-unaffected (three robust failures more than justify the change), but the count is
-three, and a statistic disclaimed in the next sentence must not be counted in the
-tally (construct review §5.5).
+three models with meaningful retention **passes under every estimator we can construct**
+(figures below). The decision is unaffected (three robust failures more than justify
+the change), but the count is three, and a statistic disclaimed in the next sentence
+must not be counted in the tally (construct review §5.5).
+
+**Correction — the previously reported 3.1pt does not reproduce (construct-review
+check §3, finding 13).** This ADR adopted `3.1pt` from the construct review without
+recomputing it, **in the same paragraph that adopts B8's "state the estimator"
+discipline.** Recomputed from `data/pilot/smoke_v6/*.jsonl` (retained episodes =
+`labels.coverage_ok == 1`; three models, GPT-5-mini excluded):
+
+| Estimator | Haiku 4.5 | Opus 4.7 | Sonnet 4.6 | **spread** |
+|:--|--:|--:|--:|--:|
+| **Worst condition per model** *(B8's declared estimator)* | 0.8501 | 0.8750 | 0.8796 | **2.95 pt** |
+| Condition-mean of retained-episode means | 0.8616 | 0.8776 | 0.8954 | 3.38 pt |
+| Condition-mean of retained-command rates | 0.8611 | 0.8775 | 0.8944 | 3.33 pt |
+| Episode-pooled across retained episodes | 0.8649 | 0.8796 | 0.8954 | 3.05 pt |
+| Command-pooled across retained episodes | 0.8661 | 0.8795 | 0.8951 | 2.91 pt |
+
+**`3.1pt` is not any of these.** The correct figure under the estimator this ADR
+declares is **2.95 pt**. The range across all five estimators is **2.91–3.38 pt**, so
+the criterion passes under every one of them and the conclusion is unchanged — but the
+number as printed was inherited, not computed, and is withdrawn. *(The review reported
+2.95 / 3.38 / 3.37; our first three match to the digit, and our command-pooled variant
+differs from their 3.37 by 0.04 pt, which is an estimator-definition difference, not a
+disagreement about the data. Nothing in the decision turns on it.)*
+
+**Second correction — Opus's cell is thinner than GPT-5-mini's, and was undisclaimed.**
+Under the worst-condition estimator, Opus 4.7's headline **0.8750 is computed from a
+single retained episode of 10** (condition A, exclusion 0.90). That is a **thinner base
+than the GPT-5-mini cell this ADR disclaims**, and it carried no disclaimer at all. It
+is disclaimed now, and it is why the table above reports every estimator rather than
+one: under the four pooled estimators Opus's value rests on 9 retained episodes rather
+than 1, and the spread still passes. **Excluding Opus entirely, the Haiku–Sonnet spread
+is 2.95 pt** under the declared estimator — so no single model's thin cell is
+load-bearing for the "spread passes" conclusion.
 
 The GPT 1.00 is an artifact of near-total exclusion, not a pass.
 
@@ -87,6 +119,30 @@ signatures unchanged.
   (command-not-found, permission-denied) counts as **handled** — it is a real
   substrate response; only a container-layer failure counts as unparsed
   (construct review §5.3).
+
+  **Correction — "measured, not stipulated" overstates what changed (construct-review
+  check §3, finding 6).** The metric is measured. It is **not evidence for the
+  "coverage bias eliminated by construction" claim in the first line of this bullet**,
+  and this ADR implied it was. On `RealShell` the quantity is **container delivery /
+  liveness**, and it is ~1.0 **by construction** for the same reason bash handles every
+  idiom: bash returns a verdict for anything. Four genuinely broken commands in one live
+  session — `for i in 1 2`, `foo | | bar`, `nonexistentcmd42`, `echo $((1/0))` — yield
+  **rate 1.0000, unparsed [], handled 21/21**. The metric can only move when the
+  **container dies**. So the **stipulation moved from the return statement into the
+  classifier**; it did not disappear. As a liveness guard this is a real improvement on
+  the hardcoded `1.0`. As evidence about idiom coverage it is worth nothing, because on
+  this substrate there is no idiom coverage left to measure — which is the *premise* of
+  the switch, not a finding from it.
+
+  **It is also a homonym, and that is now prevented in code.** `MockShell.coverage_rate`
+  is an **idiom parse rate** (0.85–0.88, moves with idiom coverage);
+  `RealShell.coverage_rate` is a **container delivery rate** (1.0 by construction). The
+  evidence table in this ADR compared them under one name in a document called
+  corrigendum-grade. Both shells now carry `COVERAGE_METRIC_KIND`
+  (`idiom_parse` / `container_delivery`), the scorer emits it as `coverage_metric_kind`
+  alongside every `coverage_rate`, and `RealShell.delivery_rate` is the preferred name
+  for the real-shell quantity. **Do not pool or tabulate the two without splitting on
+  that field.**
 
 ### What does NOT change
 
@@ -301,8 +357,10 @@ The registered design rested H4's primary interpretation on the socket channel
 while quarantining the `/proc/self` channels as artifactual. Measured against the
 pinned digest, the socket channel was the **most** divergent — a regular file where
 a socket was claimed — and **five of seven discovery channels diverged or were
-dead, with none clean**. B1 repairs channels 1–2 (now CLEAN 2 / DIVERGENT 3 /
-DEAD 2, per `scripts/channel_sweep.py`), but the amendment must disclose that the
+dead, with none clean**. B1 repairs channel 2 (now **CLEAN 1 / DIVERGENT 4 /
+DEAD 2**, per `scripts/channel_sweep.py` as widened in `9f7dc0a`; the earlier
+`CLEAN 2` was measured on one narrow probe per channel and is withdrawn — channel 1
+is repaired on the socket path but still divergent on `/proc/self`), but the amendment must disclose that the
 pre-B1 arm-M-real surface was not the surface the registration described, and must
 report the post-B1 per-channel status rather than a global fidelity claim.
 

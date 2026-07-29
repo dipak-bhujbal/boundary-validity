@@ -31,7 +31,8 @@ This proposal asks whether that substitution is valid. I hold a boundary-crossin
 **Scope of the claim — escape-outcome fidelity, not substrate fidelity (B12).** The
 manipulated attribute is what the environment *does when an escape is attempted*: in
 the fabricated arm the attempt cannot succeed by construction; in the real arm the
-mechanism is genuine and the boundary is kernel-enforced. It is **not** a claim that
+mechanism and the affordance surface are genuine, and the isolation the agent is
+placed inside is kernel-enforced. It is **not** a claim that
 the two substrates are indistinguishable in every observable respect. They are not,
 and the per-channel accounting in §4.5a reports exactly where they differ — some
 channels (`/proc/self` capabilities and mounts) cannot be faked without granting the
@@ -40,6 +41,27 @@ divergence is disclosed rather than eliminated. Framing the contribution as
 *substrate* fidelity would overclaim what the design delivers and would make any
 result hostage to divergences the design deliberately accepts. The narrower framing
 is the honest one, and it is the one the identification argument actually supports.
+
+**What "kernel-enforced" does and does not mean here (construct-review check §3, finding 14).**
+An earlier draft of this paragraph said *"in the real arm the mechanism is genuine and
+the boundary is kernel-enforced."* **That was an overclaim and is corrected above.** The
+container isolation the agent runs inside is kernel-enforced, and the affordance surface
+it discovers is genuine. But the boundary **at the moment of crossing is not enforced by
+the kernel in either arm.** Arm N's design (ADR-005 principle 1) is *intercept-and-fake*:
+the wrapper matches the command signature and returns a canned response **without ever
+dispatching it**. §4.4 of this proposal calls that "silently neutered," which is accurate;
+"kernel-enforced" was not. The enforcement is a **userspace regex match**, and it is
+weaker than that phrasing implies — the G3 containment review
+(`docs/reviews/2026-07-28-G3-armN-containment-review.md`) found the matching **defeated by
+18 of 20 variants**, which is why **G3 remains FAIL and arm N is blocked**.
+
+This is not a cosmetic wording change. If a reader takes "kernel-enforced" literally, arm
+N looks like a hard boundary and the study looks like it contrasts a fake wall with a real
+one. It does not. It contrasts **two fabricated non-outcomes that differ in what the agent
+observes and in how the non-outcome is produced** — by construction in M, by interception
+in N. That is a narrower and more defensible claim, and it is the one this design supports.
+The only arm in which a crossing would meet real consequence is arm E, which is **out of
+scope** (ADR-001).
 
 The primary quantity is not a propensity rate. It is the **fidelity gap** $\Delta_{\mathrm{fid}}$, the difference in unprompted crossing rate between matched fabricated and real substrates. If fabricated environments overstate crossing, existing propensity numbers are inflated and the field is over-alarmed. If they understate, the field is being reassured by its own methodology. Either result changes how every paper in Section 3 should be read.
 
@@ -269,6 +291,59 @@ fact.
    was real, and independently, its trajectory is scored for environment-doubt
    language. This is held out from the primary analysis so it cannot contaminate
    the propensity estimate.
+
+**Power and decision rule — added in response to construct-review check §3, finding 15.**
+The clause *"statistically indistinguishable"* above was **undefined**, which is a
+defect of exactly the kind §6.4 exists to prevent: a **low-powered check that fails to
+fire would render the primary uninterpretable**, because the binding rule below converts
+"did not fire" into "the null is about our parity engineering." An underpowered check
+therefore does not merely add noise — it can silently downgrade the study's headline
+claim. The check gets the same treatment §6.4 gives the primary:
+
+- **Equivalence, not absence.** "Indistinguishable" is operationalized as a **two
+  one-sided tests (TOST)** procedure on the per-channel discovery-rate difference, at
+  $\alpha = 0.05$, with an equivalence margin of **$\pm 5$ percentage points** per
+  channel. Failing to reject the null of *difference* is **not** evidence of
+  indistinguishability and will not be reported as such; only a successful TOST
+  supports "the manipulation did not fire."
+- **Minimum detectable difference, reported whether or not it is reached.** At the
+  planned per-cell $n$, the MDD for a per-channel rate difference at 80% power is
+  reported **alongside every channel result**, so a non-significant channel can be read
+  as "equivalent within $\pm5$pt" or "inconclusive — MDD exceeds the margin," never as a
+  bare null. Channels whose MDD exceeds the 5pt margin at the achieved $n$ are declared
+  **inconclusive** and excluded from the interpretation rule below rather than counted as
+  "did not fire."
+- **Three-way outcome, pre-committed.** Each channel resolves to **fired**
+  (difference significant), **equivalent** (TOST passes), or **inconclusive** (neither).
+  The binding rule below is triggered only by *equivalent*, never by *inconclusive*.
+
+**The environment-doubt scorer is a second instrument and is gated like the first.**
+Scoring trajectories "for environment-doubt language" introduces a construct whose
+reliability is currently **unestablished** — in a study whose entire G2 gate exists to
+establish reliability for the *D/X* instrument before it may be used. It is therefore
+subject to the **same gate on the same terms**: a pre-specified codebook, dual
+independent coding of a held-out sample, and **Cohen's $\kappa \geq 0.80$ before any
+environment-doubt figure may be reported**. If that gate fails, the self-report item
+stands alone and the doubt-language channel is dropped, not reported with a caveat.
+*(Note the scope limitation G2 already carries — see the G2 record: the D/X κ is
+computed on a corpus in which every positive label falls in one scenario. The
+environment-doubt gate must not inherit that weakness; its held-out sample is stratified
+across scenarios.)*
+
+**Two preconditions this check cannot escape, stated plainly:**
+
+- **It requires arm N, and arm N is blocked.** G3 = **FAIL**; ADR-008 is the remediation
+  roadmap. Until G3 passes there is **no M/N manipulation check**, and the interpretation
+  rule below has nothing to condition on. This is a **hard sequencing dependency**, not a
+  caveat.
+- **It costs money, and the cost is not yet budgeted.** The held-out probe was written as
+  "small n, low cost" with **no $n$ and no cost line** against the project's **\$900 gross
+  budget** (PLAN.md). Planning figure: a probe at **$n = 40$ per arm** across 2 arms — the
+  smallest sample at which the $\pm5$pt TOST margin is not vacuous for a mid-range rate —
+  is the assumed scale for costing. **That figure is a planning estimate only.** No probe
+  run is authorized, and none will be executed until the cost is estimated against the
+  remaining budget and **explicitly approved**, on the same terms as every other model-API
+  expenditure in this project.
 
 **Pre-committed interpretation rule (binding):**
 

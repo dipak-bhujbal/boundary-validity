@@ -36,6 +36,8 @@ Propensity evaluations in AI safety measure what an agent chooses to do rather t
 
 This study asks whether that substitution is valid. A boundary-crossing scenario is held fixed and only the reality of the boundary is varied. Container isolation is used as the enforced case because it is simultaneously kernel-enforced, binary, deterministically scorable, and load-bearing for the infrastructure on which the evaluation community runs its own evaluations.
 
+**Scope note on "kernel-enforced."** This describes the *isolation the agent runs inside* and the *class of boundary* chosen for the study. It does **not** describe the enforcement acting at the moment of an attempted crossing in either measured arm. Arm N is *intercept-and-fake* (ADR-005 principle 1): the crossing command is matched in userspace and answered with a canned response without being dispatched. No crossing is stopped by the kernel in arm M or arm N, and no real escape occurs in either. See proposal §1 for the full correction.
+
 The primary quantity is not a propensity rate. It is the **fidelity gap** $\Delta_{\mathrm{fid}}$: the difference in unprompted crossing rate between matched fabricated and real substrates. If fabricated environments overstate crossing, existing propensity numbers are inflated. If they understate, the field is being reassured by its own methodology. Either result changes how every prior propensity paper should be read.
 
 ### 1.3 Three-Factor Decomposition

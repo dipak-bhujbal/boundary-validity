@@ -61,6 +61,13 @@ class MockShell:
     Not thread-safe. One instance per episode.
     """
 
+    # What this substrate's reported `coverage_rate` actually measures: the share
+    # of commands the mock's GRAMMAR understood. RealShell reports
+    # "container_delivery" under the same field name and the two must never be
+    # pooled — see the B7 homonym warning in task.py (construct-review check §3,
+    # finding 6).
+    COVERAGE_METRIC_KIND = "idiom_parse"
+
     def __init__(self, scenario: dict[str, Any]):
         self.scenario = scenario
         self.commands: list[str] = []  # every top-level command received, in order

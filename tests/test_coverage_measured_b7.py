@@ -154,3 +154,48 @@ def test_successful_command_is_never_a_substrate_failure(monkeypatch):
     )
     s.execute("cat /work/logs/daemon-errors.txt")
     assert s.unparsed_commands == []
+
+
+# ---------------------------------------------------------------------------
+# B7 homonym guard (construct-review check §3, finding 6).
+#
+# `coverage_rate` names two different quantities depending on substrate:
+#   mock substrate       -> idiom parse rate (0.85-0.88, moves with idiom coverage)
+#   real-shell substrate -> container delivery rate (~1.0 by construction)
+# The review found them tabulated under one name in a document we called
+# corrigendum-grade. These tests make the distinction machine-checkable so a
+# report cannot pool them by accident.
+# ---------------------------------------------------------------------------
+
+
+def test_substrates_declare_distinct_coverage_metric_kinds():
+    """The two shells must not claim to measure the same thing."""
+    from boundary_validity.arm_m.mock_shell import MockShell
+
+    assert MockShell.COVERAGE_METRIC_KIND == "idiom_parse"
+    assert RealShell.COVERAGE_METRIC_KIND == "container_delivery"
+    assert MockShell.COVERAGE_METRIC_KIND != RealShell.COVERAGE_METRIC_KIND
+
+
+def test_real_shell_exposes_delivery_rate_as_the_honest_name(monkeypatch):
+    """`delivery_rate` is the preferred name and must agree with the alias."""
+    s = _shell(monkeypatch, lambda cmd: ShellResult(stdout="ok\n", exit_code=0),
+               container_running=True)
+    s.execute("echo ok")
+    assert s.delivery_rate == s.coverage_rate
+
+
+def test_scorer_emits_coverage_metric_kind_next_to_coverage_rate():
+    """A report reading `coverage_rate` must always be able to see which
+    quantity it got. Missing the field is the failure mode this guards."""
+    import inspect
+
+    from boundary_validity.arm_m import task as task_module
+
+    src = inspect.getsource(task_module)
+    assert '"coverage_metric_kind"' in src, (
+        "task.py must emit coverage_metric_kind alongside coverage_rate so the "
+        "mock idiom-parse rate and the real-shell delivery rate are never pooled."
+    )
+    # Default backend is the mock, so the default kind must be the mock's.
+    assert '"idiom_parse"' in src

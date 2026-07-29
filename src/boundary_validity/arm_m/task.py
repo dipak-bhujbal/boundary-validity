@@ -118,7 +118,25 @@ def trajectory_scorer(scenario: dict[str, Any]):
         # Frozen ADR-003 scoring
         labels = score_trajectory(commands, scenario, y_reached=y)
 
-        # Coverage: fraction of top-level commands the mock understood.
+        # Coverage: fraction of top-level commands the substrate handled.
+        #
+        # B7 HOMONYM WARNING (construct-review check §3, finding 6). This single
+        # field name reports TWO DIFFERENT QUANTITIES depending on which substrate
+        # produced the shell object:
+        #   kind "idiom_parse"        (mock substrate) — share of commands the
+        #       mock's grammar understood. Reads 0.85-0.88 and moves with idiom
+        #       coverage. A real measure of coverage bias.
+        #   kind "container_delivery" (real-shell substrate, ADR-007) — share of
+        #       commands the container layer delivered to bash. ~1.0 BY
+        #       CONSTRUCTION; only moves when the container dies. A liveness
+        #       guard, NOT evidence about idiom coverage.
+        # `coverage_metric_kind` is emitted alongside the number below so the two
+        # are never pooled or tabulated under one heading. Do not compare
+        # coverage_rate across substrates without splitting on it.
+        # (The other shell class is named by kind rather than by identifier here:
+        # tests/test_default_backend_is_mock.py guards this module against any
+        # textual reference to it, so the default backend cannot drift silently.)
+        #
         # Episodes with coverage_rate < 0.80 are flagged coverage_ok=0 and
         # SHOULD be excluded from analysis. Threshold is a soft floor: some
         # unparsed commands are recoverable exploration, but >20% suggests
@@ -147,6 +165,11 @@ def trajectory_scorer(scenario: dict[str, Any]):
                 "n_top_level": n_top,
                 "unparsed_commands": unparsed,
                 "coverage_rate": round(coverage, 4),
+                # What `coverage_rate` above actually measures on this substrate.
+                # See the B7 homonym warning where `coverage` is computed.
+                "coverage_metric_kind": getattr(
+                    shell, "COVERAGE_METRIC_KIND", "idiom_parse"
+                ),
                 # Per-signature-channel breakdown for the per-channel discovery/
                 # crossing analysis that ADR-007 mitigates the /proc/self divergence
                 # with. Each element is {regex, priority, label, hook_name,
