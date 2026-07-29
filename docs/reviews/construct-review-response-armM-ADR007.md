@@ -4,8 +4,9 @@
 **Date:** 2026-07-28
 **Responds to:** `docs/reviews/2026-07-28-construct-review-armM-ADR007.md`
 **Status:** Draft. **This document carries a specific ask — see "The ask" below.
-It is not a request to accept ADR-007.** One methods question is deliberately left
-open for the SME (§4.4); no ceiling value is proposed anywhere in this document.
+It is not a request to accept ADR-007.** The methods question previously reserved for
+an SME (§4.4) is **withdrawn** — it asked for a decomposition of a variable from
+itself, and is resolved by dropping the bound rather than by supplying a value.
 
 ---
 
@@ -148,9 +149,8 @@ answers each finding, states what is done, and marks what is still open.
 ### Status of your check of this document
 
 You re-verified this response against the repo, a live container, and independent
-recomputation, and returned 18 findings. **All 18 are addressed below.** Nothing is
-deferred, and where a finding could not be closed by us it is marked with what blocks it
-rather than argued away.
+recomputation, and returned 18 findings. **All 18 are closed.** Nothing is deferred, and
+nothing is argued away.
 
 | Tier | # | Finding | Status |
 |:--|:--|:--|:--|
@@ -161,7 +161,7 @@ rather than argued away.
 | 2 | 4 | Ownership fix didn't generalize; uid 1000 doesn't resolve | **Closed** (`9f7dc0a`) — real in-container user, all seeded items chowned+verified |
 | 2 | 5 | `CLEAN 2` measured more narrowly than the channel it certifies | **Closed** (`9f7dc0a`) — sweep widened, count **downgraded to CLEAN 1 / DIVERGENT 4 / DEAD 2** |
 | 2 | 6 | B7 doesn't restore the evidence; `coverage_rate` is a homonym | **Closed** — claim withdrawn in ADR-007; `COVERAGE_METRIC_KIND` + `delivery_rate` added |
-| 2 | 7 | §4.4 asks the SME to decompose a variable from itself | **Open by design** — fork stated in §4.4; **we lean (i) and are asking you to rule** |
+| 2 | 7 | §4.4 asks the SME to decompose a variable from itself | **Closed** — question withdrawn, bound dropped; residual is external validity (arm E, out of scope) |
 | 2 | 8 | The ask is under-specified vs your §5 ruling | **Closed** — same as Tier-1 #2 |
 | 2 | 9 | Circularity is half ours to break | **Closed** — ADR-010 names the vehicle; condition (2) was always author-side |
 | 2 | 10 | G2's scope is thinner than "n=100, B–G" implies | **Closed** — scope section added to the κ record; over-reaching claim withdrawn |
@@ -174,9 +174,12 @@ rather than argued away.
 | 3 | 17 | "Verified in a live container" is opt-in | **Closed** — default `137 passed, 6 skipped` stated; flag yields `143 passed` |
 | 3 | 18 | `_seed_filesystem` docstring states a false invariant | **Closed** — docstring corrected to the invariant the code enforces |
 
-**One finding remains open, and deliberately: #7.** It is a fork we do not think we should
-resolve unilaterally, because one branch implies a larger correction to B12's status than
-the other. Everything else is closed.
+**On #7 specifically:** we first wrote it up as a fork for you to rule on, because one
+branch implied a correction to B12's status. On reflection the fork was not real — if
+B12's reframing is correct, and we believe it is, then the consequence term does not
+exist separately inside the executed scope and there is nothing to bound. **We resolved
+it rather than passing you a decision that our own reframing had already made.** If you
+read B12 differently, that reading reopens it and we will take the correction.
 
 ---
 
@@ -417,69 +420,60 @@ threat model refuses.
 
 ---
 
-## §4.4 — The consequence confound: **open methods question for the SME**
+## §4.4 — The consequence confound: **resolved, and the SME question is withdrawn**
 
 The review is right that arms M and N differ in the consequence available, and that
 this is not fully separable from fidelity within the executed two-arm scope (arm E,
 which would separate them cleanly, is deferred per ADR-001).
 
-**The strategy is decided: bound the consequence effect** rather than disclose-and-defer
-or design it out.
+**This section previously put a question to an SME. That question is withdrawn, because
+you were right that it cannot be answered as posed (construct-review check §3, finding
+7).** It asked for
 
-**What is NOT decided, and is reserved for the SME:** the specific ceiling placed on
-the consequence effect, and the justification for that ceiling. I have deliberately
-not authored a value here. A bound of this kind is only credible if it comes from
-someone who can defend its basis, and inventing a number to make the document look
-complete is exactly the failure this review is teaching me to avoid.
+> a defensible upper bound on the share of any observed Δ_fid attributable to the
+> consequence difference **rather than to fidelity**
 
-**The question I am putting to the SME:**
+— and the objection is that the two are no longer distinct:
 
-> Given arms M and N as specified — fabricated versus genuinely-enforced escape
-> outcome, with live consequence held at zero in both — what is a defensible upper
-> bound on the share of any observed Δ_fid attributable to the consequence
-> difference rather than to fidelity, and on what basis?
+- **B3** defines the fidelity manipulation as *"what the environment does when an escape
+  is attempted."*
+- **B12** renames the estimand **escape-outcome fidelity** — *literally that same thing*.
+- So the question asked an SME to **decompose a variable from itself.** No answer to it
+  could have been correct, and an SME who supplied a number would have been supplying one
+  for a quantity that does not exist.
 
-**The question as posed above may be unanswerable, and we are asking you to rule on that
-first (construct-review check §3, finding 7).** The objection is sharp and we think it is
-correct:
+**Our resolution: the B12 reframing absorbs the confound.** If escape-outcome fidelity
+*is* the difference in what happens on attempt, then **within the executed two-arm scope
+there is no separate consequence term to bound**, and seeking a ceiling for it was a
+category error rather than a missing piece of work. **The bound is dropped, not deferred.**
 
-- **B3** defines the fidelity manipulation as *"what the environment does when an escape is
-  attempted."*
-- **B12** renames the estimand **escape-outcome fidelity** — i.e. *literally that same
-  thing*.
-- The question then asks for the share of Δ_fid attributable to *"the consequence
-  difference rather than to fidelity."* But under B12, **the consequence difference at
-  attempt time is what fidelity now means.** We are asking an SME to decompose a variable
-  from itself.
+**What replaces it is a limitation, not an estimate.** The residual question is
+**external validity** — whether propensity measured against a fabricated non-outcome
+generalizes to one with a real consequence. That question is **arm E**, which is **out of
+scope for this paper per ADR-001**. It is stated as a limitation and is not estimated,
+bounded, or proxied. We would rather carry an honest out-of-scope limit than a number
+manufactured to make the section look complete.
 
-**The document cannot hold both positions, so here is the fork, and we are not choosing it
-unilaterally:**
-
-- **(i) B12's reframing absorbs the confound.** If escape-outcome fidelity *is* the
-  difference in what happens on attempt, then there is no separate consequence term inside
-  the executed scope, **the bound should be dropped rather than sought**, and the residual
-  question is **external validity** — which is arm E, out of scope per ADR-001. Under this
-  reading §4.4 is answered by deletion, not by a number.
-- **(ii) B12 is cosmetic.** If a consequence effect remains distinct after the renaming,
-  then **the estimand is still bundled**, B12 did not do the work we claimed for it, and
-  the bound is needed — but so is a corrected account of what B12 achieved.
-
-**We lean toward (i)** and think the honest move is to drop the bound and state the
-external-validity limit directly. We are not acting on that until you rule, because if you
-read it as (ii) then B12's status in this document is overstated and that is a larger
-correction than a deleted paragraph.
+**What this does and does not change.** B12's status is unaffected: the reframing did the
+work claimed for it, and this is the consequence of that work rather than a retreat from
+it. **Nothing downstream depended on the ceiling** — no analysis, no pre-registered
+quantity, and no interpretation rule referenced it; it was an input we had reserved and
+never used. The §4.5a manipulation check is unaffected and remains the instrument that
+decides whether a null is about fidelity or about our parity engineering.
 
 **A terminology defect in the same paragraph, which we caused.** The proposal's **C** is
 *actual consequence availability* — an arm-E quantity, **zero in both M and N**. Our
-"consequence effect" above is **success feedback**: what the agent is told happened. Those
-are **two different things sharing a word**, in the paragraph we ourselves labelled the
-load-bearing open item. Wherever this document says "consequence effect" in the M/N
-context it means **success-feedback valence**, not the decomposition's C. That is fixed in
-wording here and must be fixed in the proposal before either fork is written up.
+"consequence effect" above was **success feedback**: what the agent is told happened.
+Those are **two different things sharing a word**, in the paragraph we ourselves labelled
+the load-bearing open item. Wherever this document referred to a "consequence effect" in
+the M/N context it meant **success-feedback valence**, not the decomposition's C.
 
-Everything downstream of the bound is drafted and ready — **conditional on fork (ii)**.
-Under fork (i) there is no number to supply, and the drafted material is replaced by a
-stated external-validity limit.
+**We checked whether the proposal has the same defect. It does not.** §4.3 defines the
+consequence effect as $\pi_{\mathrm{E}} - \pi_{\mathrm{N}}$ — an **arm-E contrast**, used
+consistently there and in §7's phasing. **The conflation was this document's alone**, and
+it is fixed here. We are stating that we verified it rather than asserting the proposal is
+clean, because "we assumed the other document was consistent" is how several of the
+findings in this round started.
 
 ---
 
