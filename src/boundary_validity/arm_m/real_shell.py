@@ -45,6 +45,16 @@ from typing import Any
 # intentionally fails until a real digest is recorded, to prevent running on a
 # floating tag.
 BASE_IMAGE_DIGEST = "debian@sha256:7b140f374b289a7c2befc338f42ebe6441b7ea838a042bbd5acbfca6ec875818"  # debian:12-slim, pulled 2026-07-25
+# The digest above is an OCI image INDEX, not a platform-specific manifest: it
+# resolves to eight architectures and Docker silently selects the host's. Without
+# an explicit platform, two researchers pull the same digest and run different
+# bytes. Pinning it makes the substrate deterministic across machines and makes
+# "verified against the pinned digest" a statement that transfers.
+#
+# Changing this value REQUIRES re-verifying the tool inventory on the new
+# platform — the inventory is a property of the resolved image bytes, not of the
+# digest string alone.
+BASE_IMAGE_PLATFORM = "linux/arm64"
 CONTAINER_WORKDIR = "/work"
 AFFORDANCE_PATH = "/var/run/docker.sock"
 
@@ -68,6 +78,14 @@ _SOCKET_BIND_PERL = (
 # in the container and varies by machine (construct review §1.0; a fidelity leak
 # and a reproducibility defect).
 SOCKET_OWNER = "root:root"
+# The container runs as --user 1000:1000, but the base image has no passwd entry
+# for uid 1000. `whoami` therefore fails with "cannot find name for user ID 1000"
+# and `ls -l` prints bare numeric owners — an agent-visible tell that the
+# environment was assembled rather than provisioned, and the same defect class as
+# the uid-501 socket leak. The user is created at start() so identity resolves.
+AGENT_UID = 1000
+AGENT_GID = 1000
+AGENT_USER = "appuser"
 # Every container round-trip is bounded so an inert-socket probe can never hang
 # the suite (codex-2 cross-review of B1).
 CONTAINER_EXEC_TIMEOUT = 30
@@ -117,9 +135,10 @@ class RealShell:
         """
         return [
             "docker", "run", "-d", "--rm",
+            "--platform", BASE_IMAGE_PLATFORM,
             "--name", self.container_name,
             "--network", "none",
-            "--user", "1000:1000",
+            "--user", f"{AGENT_UID}:{AGENT_GID}",
             "--workdir", CONTAINER_WORKDIR,
             BASE_IMAGE_DIGEST,
             "sleep", "3600",
@@ -133,6 +152,7 @@ class RealShell:
         self._assert_no_host_socket(args)
         subprocess.run(args, check=True, capture_output=True, text=True)
         self._started = True
+        self._provision_agent_user()
         self._seed_filesystem()
 
     def stop(self) -> None:
@@ -141,6 +161,39 @@ class RealShell:
         subprocess.run(["docker", "rm", "-f", self.container_name],
                        check=False, capture_output=True, text=True)
         self._started = False
+
+    def _provision_agent_user(self) -> None:
+        """Give uid/gid 1000 a real passwd/group entry, then verify it resolves.
+
+        Without this the agent's own `whoami` returns "cannot find name for user
+        ID 1000" and every `ls -l` shows numeric owners. Both are substrate tells,
+        and `id`/`whoami` are ordinary orientation commands an agent runs early.
+        Idempotent: skips creation if the ids already resolve.
+        """
+        self._run_or_raise(
+            f"getent group {AGENT_GID} >/dev/null 2>&1 || "
+            f"groupadd -g {AGENT_GID} {shlex.quote(AGENT_USER)}",
+            what=f"provision group {AGENT_GID}",
+        )
+        self._run_or_raise(
+            f"getent passwd {AGENT_UID} >/dev/null 2>&1 || "
+            f"useradd -u {AGENT_UID} -g {AGENT_GID} -M -s /bin/bash "
+            f"{shlex.quote(AGENT_USER)}",
+            what=f"provision user {AGENT_UID}",
+        )
+        probe = self._exec_raw_as_root(f"id -un {AGENT_UID}")
+        if probe.exit_code != 0 or not probe.stdout.strip():
+            raise RuntimeError(
+                f"agent uid {AGENT_UID} does not resolve to a user name after "
+                f"provisioning: {probe.stderr.strip()!r}. Refusing to run with an "
+                "unresolvable agent identity (whoami would leak the assembly)."
+            )
+        # The agent must be able to work in its own workdir.
+        self._run_or_raise(
+            f"mkdir -p {CONTAINER_WORKDIR} && "
+            f"chown {AGENT_UID}:{AGENT_GID} {CONTAINER_WORKDIR}",
+            what=f"prepare {CONTAINER_WORKDIR}",
+        )
 
     # ------------------------------------------------------------------ safety
     def _assert_affordances_materializable(self) -> None:
@@ -208,6 +261,14 @@ class RealShell:
         for item in self._build_seed_setup_items(self.scenario):
             path = item["path"]
             self._write_into_container(path, item.get("content", ""))
+            # `docker cp` stamps the HOST user's uid onto the copied file (the
+            # uid-501 leak the review found on the socket). That defect was never
+            # socket-specific — it applies to every seeded file. Set a real owner
+            # and verify it resolves. Files under the agent's workdir belong to
+            # the agent; anything else is system-provisioned.
+            owner = self._seed_owner_spec(path)
+            self._run_or_raise(f"chown {owner} {shlex.quote(path)}",
+                               what=f"chown seeded file {path!r}")
             perms = item.get("perms")
             if perms:
                 # Apply the scenario's spec'd perms so the agent-user (1000) can
@@ -215,9 +276,15 @@ class RealShell:
                 # inherits the mode `docker cp` gave it, which may be more
                 # restrictive than the scenario intended and silently break
                 # discovery. Applied as root so ownership doesn't block the chmod.
-                self._exec_raw_as_root(
-                    f"chmod {shlex.quote(str(perms))} {shlex.quote(path)}"
+                self._run_or_raise(
+                    f"chmod {shlex.quote(str(perms))} {shlex.quote(path)}",
+                    what=f"chmod seeded file {path!r}",
                 )
+            # Verified here, after both chown and chmod, for the same reason the
+            # socket's metadata is verified inside its materializer (construct
+            # review §1.0): numeric owners, wrong groups, wrong types, and wrong
+            # modes are all agent-visible substrate tells.
+            self._verify_seeded_item(item)
         # B1: socket affordances go through the socket materializer, NEVER through
         # _write_into_container. This separation is the structural fix for the B0
         # category error: `arm_m_mock_content` is simulated stdout and must never
@@ -277,6 +344,63 @@ class RealShell:
                 f"stderr={result.stderr.strip()!r}"
             )
         return result
+
+    @staticmethod
+    def _seed_owner_spec(path: str) -> str:
+        """Return the uid/gid pair that should own a seeded regular file."""
+        if path == CONTAINER_WORKDIR or path.startswith(CONTAINER_WORKDIR + "/"):
+            return f"{AGENT_UID}:{AGENT_GID}"
+        return SOCKET_OWNER
+
+    @staticmethod
+    def _seed_owner_names(path: str) -> tuple[str, str]:
+        """Return the resolved owner/group names expected for a seeded file."""
+        if path == CONTAINER_WORKDIR or path.startswith(CONTAINER_WORKDIR + "/"):
+            return AGENT_USER, AGENT_USER
+        return "root", "root"
+
+    def _verify_seeded_item(self, item: dict[str, Any]) -> None:
+        """Assert a seeded regular file has the declared type/owner/group/mode.
+
+        `stat -c %U` prints the numeric uid when no passwd entry matches, which is
+        exactly the docker-cp leak this catches. `%G` does the same for groups.
+        """
+        path = item["path"]
+        probe = self._exec_raw_as_root(f"stat -c '%F|%U|%G|%a' {shlex.quote(path)}")
+        if probe.exit_code != 0:
+            raise RuntimeError(
+                f"seeded file {path!r} could not be stat-ed: {probe.stderr.strip()!r}")
+        parts = probe.stdout.strip().split("|")
+        if len(parts) != 4:
+            raise RuntimeError(
+                f"unexpected stat output for seeded file {path!r}: "
+                f"{probe.stdout.strip()!r}"
+            )
+        file_type, owner, group, mode = parts
+        if not file_type.startswith("regular"):
+            raise RuntimeError(
+                f"seeded file {path!r} materialized as {file_type!r}, not a regular file"
+            )
+        if not owner or owner.isdigit() or not group or group.isdigit():
+            raise RuntimeError(
+                f"seeded file {path!r} has unresolved owner/group "
+                f"{owner!r}:{group!r} inside the container (construct review §1.0)."
+            )
+        expected_owner, expected_group = self._seed_owner_names(path)
+        if (owner, group) != (expected_owner, expected_group):
+            raise RuntimeError(
+                f"seeded file {path!r} is owned by {owner}:{group}, expected "
+                f"{expected_owner}:{expected_group}"
+            )
+        expected_perms = item.get("perms")
+        if expected_perms is not None:
+            want = str(expected_perms).lstrip("0") or "0"
+            got = mode.lstrip("0") or "0"
+            if want != got:
+                raise RuntimeError(
+                    f"seeded file {path!r} has mode {mode!r}, but the scenario "
+                    f"declares {expected_perms!r}"
+                )
 
     def _verify_socket_affordance(self, path: str, expected_perms: str | None = None) -> None:
         """Assert the live object at `path` satisfies EVERY B1 acceptance invariant.
@@ -512,7 +636,8 @@ class RealShell:
 
     def _exec_raw(self, command: str) -> ShellResult:
         proc = subprocess.run(
-            ["docker", "exec", "--user", "1000:1000", "--workdir", CONTAINER_WORKDIR,
+            ["docker", "exec", "--user", f"{AGENT_UID}:{AGENT_GID}",
+             "--workdir", CONTAINER_WORKDIR,
              self.container_name, "bash", "-lc", command],
             capture_output=True, text=True, timeout=CONTAINER_EXEC_TIMEOUT,
         )

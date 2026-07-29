@@ -27,7 +27,9 @@ import pytest
 
 from boundary_validity.scoring import load_scenario, _validate_seed_setup
 from boundary_validity.arm_m.mock_shell import MockShell
-from boundary_validity.arm_m.real_shell import RealShell, ShellResult, AFFORDANCE_PATH
+from boundary_validity.arm_m.real_shell import (
+    RealShell, ShellResult, AFFORDANCE_PATH, AGENT_USER,
+)
 
 SCENARIOS_DIR = Path(__file__).resolve().parent.parent / "data" / "scenarios"
 CONDITIONS = ["A", "B", "C", "D", "E", "F", "G"]
@@ -138,6 +140,7 @@ def test_socket_affordance_never_written_as_file_bytes(monkeypatch):
                         lambda item: materialized.append(item["path"]))
     monkeypatch.setattr(shell, "_exec_raw_as_root", lambda cmd: ShellResult())
     monkeypatch.setattr(shell, "_apply_sandbox_gate", lambda scn: None)
+    monkeypatch.setattr(shell, "_verify_seeded_item", lambda item: None)
 
     shell._seed_filesystem()
 
@@ -145,6 +148,53 @@ def test_socket_affordance_never_written_as_file_bytes(monkeypatch):
         f"socket affordance was written as file bytes: {writes}")
     assert materialized == [AFFORDANCE_PATH], (
         f"socket affordance was not materialized as a socket: {materialized}")
+
+
+def test_seeded_file_with_unresolvable_owner_is_refused(monkeypatch):
+    """`docker cp` can stamp the host uid onto copied files. The check must
+    refuse a bare numeric owner/group, not only socket ownership leaks."""
+    shell = RealShell(_scn("A"))
+    monkeypatch.setattr(shell, "_exec_raw_as_root",
+                        lambda cmd: ShellResult(stdout="regular file|1000|1000|644\n"))
+    with pytest.raises(RuntimeError, match="unresolved owner/group"):
+        shell._verify_seeded_item({"path": "/work/logs/app.log", "perms": "0644"})
+
+
+def test_seeded_file_with_resolvable_owner_is_accepted(monkeypatch):
+    shell = RealShell(_scn("A"))
+    monkeypatch.setattr(shell, "_exec_raw_as_root",
+                        lambda cmd: ShellResult(
+                            stdout=f"regular file|{AGENT_USER}|{AGENT_USER}|644\n"
+                        ))
+    shell._verify_seeded_item({"path": "/work/logs/app.log", "perms": "0644"})
+
+
+def test_seeded_file_with_unexpected_owner_is_refused(monkeypatch):
+    shell = RealShell(_scn("A"))
+    monkeypatch.setattr(shell, "_exec_raw_as_root",
+                        lambda cmd: ShellResult(stdout="regular file|root|root|644\n"))
+    with pytest.raises(RuntimeError, match="expected"):
+        shell._verify_seeded_item({"path": "/work/logs/app.log", "perms": "0644"})
+
+
+def test_seeded_file_with_wrong_mode_is_refused(monkeypatch):
+    shell = RealShell(_scn("A"))
+    monkeypatch.setattr(shell, "_exec_raw_as_root",
+                        lambda cmd: ShellResult(
+                            stdout=f"regular file|{AGENT_USER}|{AGENT_USER}|600\n"
+                        ))
+    with pytest.raises(RuntimeError, match="declares"):
+        shell._verify_seeded_item({"path": "/work/logs/app.log", "perms": "0644"})
+
+
+def test_seeded_file_with_wrong_type_is_refused(monkeypatch):
+    shell = RealShell(_scn("A"))
+    monkeypatch.setattr(shell, "_exec_raw_as_root",
+                        lambda cmd: ShellResult(
+                            stdout=f"directory|{AGENT_USER}|{AGENT_USER}|755\n"
+                        ))
+    with pytest.raises(RuntimeError, match="regular file"):
+        shell._verify_seeded_item({"path": "/work/logs/app.log", "perms": "0644"})
 
 
 def test_socket_items_do_not_carry_mock_content():
@@ -177,7 +227,16 @@ def test_seed_filesystem_never_touches_docker_sock_for_e(monkeypatch):
     root_cmds: list[str] = []
     monkeypatch.setattr(shell, "_write_into_container",
                         lambda path, content="": writes.append(path))
-    monkeypatch.setattr(shell, "_exec_raw_as_root", lambda cmd: root_cmds.append(cmd))
+
+    def responder(cmd):
+        root_cmds.append(cmd)
+        if cmd.startswith("stat ") and "nginx.conf" in cmd:
+            return ShellResult(stdout="regular file|root|root|644\n")
+        if cmd.startswith("stat "):
+            return ShellResult(stdout=f"regular file|{AGENT_USER}|{AGENT_USER}|644\n")
+        return ShellResult()
+
+    monkeypatch.setattr(shell, "_exec_raw_as_root", responder)
     monkeypatch.setattr(shell, "_apply_sandbox_gate", lambda scenario: None)
 
     shell._seed_filesystem()

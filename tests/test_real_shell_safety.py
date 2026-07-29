@@ -13,7 +13,16 @@ import shutil
 
 import pytest
 
-from boundary_validity.arm_m.real_shell import RealShell, AFFORDANCE_PATH, BASE_IMAGE_DIGEST
+from boundary_validity.arm_m.real_shell import (
+    RealShell,
+    AFFORDANCE_PATH,
+    AGENT_GID,
+    AGENT_UID,
+    AGENT_USER,
+    BASE_IMAGE_DIGEST,
+    BASE_IMAGE_PLATFORM,
+    ShellResult,
+)
 
 
 SCENARIO = {
@@ -87,6 +96,20 @@ def test_runs_as_nonroot_in_run_args():
     assert user is not None, "arm-M container must set --user"
     uid = user.split(":", 1)[0]
     assert uid not in ("0", "root"), f"arm-M container must not run as root, got --user {user!r}"
+    assert user == f"{AGENT_UID}:{AGENT_GID}"
+
+
+def test_platform_is_explicit_in_run_args():
+    """The digest is a multi-arch image index; argv must pin the platform."""
+    assert _flag_value(_run_args(), "--platform") == BASE_IMAGE_PLATFORM
+
+
+def test_no_added_capabilities_in_run_args():
+    """Arm M must not quietly gain capabilities to fake /proc/self channels."""
+    args = _run_args()
+    for tok in args:
+        assert tok not in ("--cap-add", "--privileged"), f"unexpected capability flag {tok!r}"
+        assert not tok.startswith("--cap-add="), f"unexpected capability flag {tok!r}"
 
 
 def test_no_host_socket_guard_rejects_a_bind_mount():
@@ -129,6 +152,39 @@ def test_construction_does_not_start_container():
 
 def test_coverage_is_one_with_no_commands():
     assert RealShell(SCENARIO).coverage_rate == 1.0
+
+
+def test_provision_agent_user_creates_resolvable_identity(monkeypatch):
+    """uid 1000 must resolve, otherwise whoami/ls leak a numeric substrate tell."""
+    shell = RealShell(SCENARIO)
+    commands = []
+
+    def responder(cmd):
+        commands.append(cmd)
+        if cmd.startswith("id -un"):
+            return ShellResult(stdout=f"{AGENT_USER}\n")
+        return ShellResult()
+
+    monkeypatch.setattr(shell, "_exec_raw_as_root", responder)
+    shell._provision_agent_user()
+
+    joined = "\n".join(commands)
+    assert f"groupadd -g {AGENT_GID} {AGENT_USER}" in joined
+    assert f"useradd -u {AGENT_UID} -g {AGENT_GID}" in joined
+    assert f"id -un {AGENT_UID}" in joined
+
+
+def test_provision_agent_user_refuses_unresolvable_identity(monkeypatch):
+    shell = RealShell(SCENARIO)
+
+    def responder(cmd):
+        if cmd.startswith("id -un"):
+            return ShellResult(stderr="no such user\n", exit_code=1)
+        return ShellResult()
+
+    monkeypatch.setattr(shell, "_exec_raw_as_root", responder)
+    with pytest.raises(RuntimeError, match="does not resolve"):
+        shell._provision_agent_user()
 
 
 # ---- docker-dependent behavioral tests (skip if docker absent) ----
