@@ -1,7 +1,7 @@
 # Cover note — arm M / ADR-007, second round
 
 **Status: DRAFT. Not sent.** Sending is the author's decision.
-**Repo state this note describes:** `9776900`.
+**Response-packet state this note describes:** `9776900`.
 **Attachment:** `docs/reviews/construct-review-response-armM-ADR007.md`
 
 ---
@@ -10,10 +10,13 @@ Thank you for the check on the response packet. You returned 18 findings. **All 
 closed.** Nothing is deferred and nothing is argued away — where a finding revealed a claim
 we could not support, the claim is withdrawn rather than defended.
 
-Three of your findings turned out to be instances of one defect, and it is the honest
-summary of this round: **we were printing numbers and claims we had not recomputed.** Every
-figure in the attached document now states the method that produces it, so you can break it
-the way you broke the last one.
+Several of your findings turned out to be instances of one defect, and it is the honest
+summary of this round: **we were printing numbers and claims we had not recomputed.** Our
+own verification then caught a further instance of it — a retained-replay figure of
+`258/314` that we wrote *while documenting the others*, and which reproduced under no
+single stated method. It is corrected in §1.0-bis and the correction is left visible rather
+than swapped out. Every figure in the attached document now states the method that produces
+it, so you can break it the way you broke the last one.
 
 ## What you should read first
 
