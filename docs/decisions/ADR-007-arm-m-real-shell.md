@@ -74,10 +74,24 @@ discipline.** Recomputed from `data/pilot/smoke_v6/*.jsonl` (retained episodes =
 **`3.1pt` is not any of these.** The correct figure under the estimator this ADR
 declares is **2.95 pt**. The range across all five estimators is **2.91–3.38 pt**, so
 the criterion passes under every one of them and the conclusion is unchanged — but the
-number as printed was inherited, not computed, and is withdrawn. *(The review reported
-2.95 / 3.38 / 3.37; our first three match to the digit, and our command-pooled variant
-differs from their 3.37 by 0.04 pt, which is an estimator-definition difference, not a
-disagreement about the data. Nothing in the decision turns on it.)*
+number as printed was inherited, not computed, and is withdrawn.
+
+*Reproduction.* Retained episodes = `labels.coverage_ok == 1`. Row 1 takes the per-cell
+mean of `coverage_rate` over retained episodes and then the **minimum** over conditions
+{A, D}; rows 2–3 take the **unweighted mean** over the two cells (of episode means and of
+`(Σ num_commands − Σ unparsed) / Σ num_commands` respectively); rows 4–5 pool over all
+retained episodes of both conditions, weighted by episode and by command. Unrounded
+spreads: **2.9480 / 3.3827 / 3.3266 / 3.0543 / 2.9060** pt. Independently recomputed by a
+second agent from the same files, matching to four decimal places.
+
+*One figure of the review's we could not reproduce.* The review reported
+**2.95 / 3.38 / 3.37**; our first two match to the digit, but we get **3.33** where they
+report **3.37**, and neither we nor an independent recomputation could derive 3.37 from
+the row-3 estimator as specified above. We report ours with its definition stated rather
+than adopting theirs unexplained — **which is the whole lesson of this finding.** If the
+review's command-pooled estimator differs from row 3, we will carry their figure once the
+definition is known. **Nothing in the decision turns on it: every candidate value passes
+the 5pt criterion.**
 
 **Second correction — Opus's cell is thinner than GPT-5-mini's, and was undisclaimed.**
 Under the worst-condition estimator, Opus 4.7's headline **0.8750 is computed from a

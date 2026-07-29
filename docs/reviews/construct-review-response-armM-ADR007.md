@@ -212,7 +212,7 @@ already-collected trajectories, no model calls:
 |:--|--:|
 | Episodes where the substrate emitted the literal string `mock shell` to the agent | **885 / 950 = 93.2%** |
 | Commands returning it | **2,905 / 13,235 = 21.9%** |
-| Among episodes that would be **retained** (coverage ≥ 0.80) | **258 / 314 = 82.2%** |
+| Among episodes that would be **retained** (coverage ≥ 0.80, recomputed on replay by `task.py`'s own rule) | **336 / 401 = 83.8%** |
 
 | Model | rate |
 |:--|--:|
@@ -234,15 +234,39 @@ a lower bound.**
 *runtime string*. The test passed while the substrate said "mock shell" to the agent 2,905
 times.
 
-**On the numbers.** The review reported 885/950, 2,905/13,235, and the six per-model rates;
-**our independent replay reproduces every one of them to the digit.** We recomputed rather
-than inherited them deliberately — see the ADR-007 coverage-spread correction, where
-inheriting a figure unchecked is exactly what went wrong. Our retained figure is
-**258/314 (82.2%)** against the review's 281/346 (81.2%); the gap is a
-retention-reconstruction difference (`coverage_rate` is absent from part of the corpus and
-we recompute it on replay), not a disagreement about the data, and it moves nothing.
-Denominator note: **970 episodes exist; 20 recorded zero commands** and are excluded, which
-is how both we and the reviewer arrive at 950.
+**On the numbers, and exactly how to reproduce them.** The review reported 885/950,
+2,905/13,235, and the six per-model rates; **our independent replay reproduces every one of
+them to the digit**, and a second agent independently reproduced our replay. We recomputed
+rather than inherited deliberately — see the ADR-007 coverage-spread correction, where
+inheriting a figure unchecked is exactly what went wrong.
+
+**Method, stated so this is checkable rather than trusted.** Pre-fix mock =
+`git show 7ba8d11:src/boundary_validity/arm_m/mock_shell.py`. Corpora: `data/pilot/`
+`multi`, `haiku_20`, `smoke_v6`, `smoke_v2`–`v5` (**not** `g2_labeling`). Each record's
+`commands` list is replayed in order through a fresh `MockShell(scenario)`; an episode
+counts as a hit if any command's `stdout + stderr` contains the literal `mock shell`.
+**970 records exist; 20 recorded zero commands and are excluded, giving 950** — which is
+how both we and the reviewer arrive at that denominator. **Retention is recomputed on
+replay using `task.py`'s own rule** — `handled / (handled + unparsed)` over top-level
+commands, retained at `≥ 0.80` — rather than read from the stored `coverage_rate` field,
+which is absent from part of the corpus.
+
+**One correction to our own first draft of this section.** We initially reported the
+retained figure as **258/314**, computed with an unstated *hybrid* of stored and replayed
+coverage. It does not reproduce under any single stated definition, and it was caught in
+internal verification before this document reached you. **The figure above (336/401) is
+computed by one fully specified rule and does reproduce.** We are flagging it rather than
+silently swapping the number, because "a figure that does not reproduce under its own
+stated method" is precisely finding 13, and we would rather show that the check caught it
+than present a clean table that hides a second instance.
+
+**We also cannot reproduce the review's 281/346 (81.2%)** under that rule or the
+alternatives we tried. Since the primary figures agree to the digit, we take this as a
+retention-definition difference rather than a disagreement about the data; **if your
+retention rule differs from `task.py`'s, tell us and we will report yours.** Nothing in
+§1.0-bis's conclusion turns on it — the retained row exists only to show the contamination
+is not concentrated in episodes that analysis would have discarded anyway, and it is not
+under either rule.
 
 **Status of the fix.** Closed in `a86afa6`. The three sites now return real shell wording
 (`bash: <name>: command not found`). Replaying all 950 episodes through the **current**
