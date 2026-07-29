@@ -1,8 +1,10 @@
 # Cover note — arm M / ADR-007, second round
 
-**Status: DRAFT. Not sent.** Sending is the author's decision.
-**Response-packet state this note describes:** `9776900`.
-**Attachment:** `docs/reviews/construct-review-response-armM-ADR007.md`
+**From:** Dipak Bhujbal
+**Date:** 2026-07-29
+**For review:** `docs/reviews/construct-review-response-armM-ADR007.md` (the response packet)
+**Decision requested in:** `docs/decisions/ADR-010-tool-absence-parity.md` (Option B sign-off)
+**Repository state described here:** `9776900`
 
 ---
 
