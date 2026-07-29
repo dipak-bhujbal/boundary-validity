@@ -456,10 +456,21 @@ manufactured to make the section look complete.
 
 **What this does and does not change.** B12's status is unaffected: the reframing did the
 work claimed for it, and this is the consequence of that work rather than a retreat from
-it. **Nothing downstream depended on the ceiling** — no analysis, no pre-registered
+it. **No computed quantity depended on the ceiling** — no analysis path, no pre-registered
 quantity, and no interpretation rule referenced it; it was an input we had reserved and
 never used. The §4.5a manipulation check is unaffected and remains the instrument that
 decides whether a null is about fidelity or about our parity engineering.
+
+**Two pieces of prose did depend on it, and we initially missed them.** Our first draft of
+this resolution asserted that *nothing anywhere* referenced the bound. Verification found
+two places that still did: the "gates that remain closed" list in this document, which
+named the consequence bound as *the load-bearing open item* and said arm E became
+**required** if an SME could not defend a bound; and ADR-007's amendment section, which
+still described a **bounding approach with a ceiling pending SME review**. Both directly
+contradicted this resolution and are corrected. We record the miss because it is the same
+pattern as findings 13 and 5 — **a claim of completeness asserted rather than checked** —
+and because a reviewer who found either passage would have been right to doubt that the
+decision had actually been made.
 
 **A terminology defect in the same paragraph, which we caused.** The proposal's **C** is
 *actual consequence availability* — an arm-E quantity, **zero in both M and N**. Our
@@ -598,9 +609,15 @@ position after these fixes:
 - If **B2 cannot be implemented without weakening containment**, the honest move is
   Option C (narrow the scenario claims to tools guaranteed present) with the
   consequent loss of external validity disclosed — not to ship the confound.
-- The **consequence bound** is the load-bearing open item. If the SME cannot defend a
-  bound, then arm E is not optional future work; it is required, and the two-arm
-  result should be framed as preliminary.
+- **External validity is the load-bearing limit, and it is a limit rather than an open
+  item.** This bullet previously named the *consequence bound* as the open item and said
+  that if an SME could not defend a bound, arm E became required. **That framing is
+  superseded by §4.4:** there is no consequence term to bound inside the two-arm scope, so
+  there is no bound whose failure could trigger anything. What survives is the stronger
+  and simpler statement — **arm E is what would answer whether a fabricated non-outcome
+  generalizes to a real one, it is out of scope per ADR-001, and the two-arm result is
+  bounded by that regardless of what any SME might have said.** We report the limit; we do
+  not proxy it.
 
 ---
 

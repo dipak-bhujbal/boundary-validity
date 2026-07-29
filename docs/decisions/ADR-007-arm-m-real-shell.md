@@ -386,10 +386,23 @@ reality (option a) — and must state that a null on H4 is uninformative unless 
 B4 discriminability check fires. Registering the mechanism loosely and reporting a
 bounded null against it is the failure mode §10 of the review warns about.
 
-**Consequence-effect handling.** Where the amendment addresses the consequence
+**Consequence-effect handling.** ~~Where the amendment addresses the consequence
 confound, it states a **bounding approach**; the specific ceiling and its
-justification are **pending human + SME review** and are deliberately not authored
-here.
+justification are **pending human + SME review**.~~ **Superseded (construct-review
+check §3, finding 7).** There is **no bounding approach and no ceiling**, because within
+the executed two-arm scope there is no separate consequence term to bound: B3 defines the
+fidelity manipulation as what the environment does when an escape is attempted, and B12
+names the estimand *escape-outcome fidelity* — the same quantity. Seeking a ceiling for it
+was a category error, and the SME question that would have supplied one is **withdrawn**.
+
+**What the amendment must state instead:** that the consequence confound is **absorbed by
+the escape-outcome-fidelity framing** inside M-vs-N, and that the residual question —
+whether a fabricated non-outcome generalizes to one with a real consequence — is
+**external validity, answerable only by arm E, which is out of scope per ADR-001**. It is
+recorded as a limitation, **not** estimated, bounded, or proxied. Nothing in the analysis,
+the pre-registration, or the interpretation rules depends on a numeric ceiling; the
+`docs/reviews/construct-review-response-armM-ADR007.md` §4.4 account is the reference
+version.
 2. The amendment is timestamped **before any real-shell arm-M data is generated** — not
    merely before analysis. The timestamp must predate the new design's data existing,
    to foreclose any "you peeked then amended" objection.
