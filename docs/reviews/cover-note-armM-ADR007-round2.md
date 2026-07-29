@@ -4,7 +4,8 @@
 **Date:** 2026-07-29
 **For review:** `docs/reviews/construct-review-response-armM-ADR007.md` (the response packet)
 **Decision requested in:** `docs/decisions/ADR-010-tool-absence-parity.md` (Option B sign-off)
-**Repository state described here:** `9776900`
+**State described here:** the packet, ADRs, proposal, and code as of **`9776900`** — unchanged
+since; every commit after it touches only this cover note.
 
 ---
 
